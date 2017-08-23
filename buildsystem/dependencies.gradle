@@ -77,6 +77,8 @@ ext {
             retrofitAdapterRx:    "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
             rxAndroid:            "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             rxJava:               "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            shopifyBuySdk:        "com.shopify.mobilebuysdk:buy3:${shopifyBuySdkVersion}",
+            shopifyBuySdkSupport: "com.shopify.mobilebuysdk:buy3-pay-support:${shopifyBuySdkSupportVersion}",
             systembarTint:        "com.readystatesoftware.systembartint:systembartint:${systembarTintVersion}",
             timber:               "com.jakewharton.timber:timber:${timberVersion}",
     ]
@@ -245,6 +247,11 @@ ext {
             [configuration: "compile", dependency: d_rxBindings.supportV4],
     ]
 
+    def shopify = [
+            [configuration: "compile", dependency: d_libs.shopifyBuySdk],
+            [configuration: "compile", dependency: d_libs.shopifyBuySdkSupport],
+    ]
+
     def views = [
             [configuration: "compile", dependency: d_view.alerter],
             [configuration: "compile", dependency: d_view.appIntro],
@@ -365,7 +372,7 @@ ext {
     dataDependencies = [
             [configuration: "compile", dependency: d_libs.eventbus],
     ]
-    dataDependencies += module_domain + dagger + kotlin + log + network + rx
+    dataDependencies += module_domain + dagger + kotlin + log + network + rx + shopify
     testDataDependencies = test + mockito
     testDataDependencies += [
             [configuration: "kaptTest", dependency: d_libs.daggerCompiler],
