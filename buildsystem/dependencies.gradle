@@ -50,6 +50,7 @@ ext {
             butterKnife:          "com.jakewharton:butterknife:${butterKnifeVersion}",
             butterKnifeCompiler:  "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
             crashlytics:          "com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}",
+            crashlyticsNdk:       "com.crashlytics.sdk.android:crashlytics-ndk:${crashlyticsNdkVersion}",
             dagger:               "com.google.dagger:dagger:${daggerVersion}",
             daggerCompiler:       "com.google.dagger:dagger-compiler:${daggerVersion}",
             eventbus:             "org.greenrobot:eventbus:${eventbusVersion}",
@@ -344,6 +345,7 @@ ext {
     // ------------------------------------------
     appDependencies = [
             [configuration: "compile", dependency: d_libs.crashlytics, options: { transitive = true }],
+            [configuration: "compile", dependency: d_libs.crashlyticsNdk, options: { transitive = true }],
             [configuration: "compile", dependency: d_libs.eventbus],
             [configuration: "compile", dependency: d_libs.glide],
 //            [configuration: "compile", dependency: d_libs.multidex],
@@ -366,7 +368,7 @@ ext {
             plugins.kotlinAndroid,
             plugins.kotlinAndroidExt,
             plugins.kotlinAnnotation,
-//            plugins.fabric,
+            plugins.fabric,
     ]
 
     appPluginsAtBottom = [

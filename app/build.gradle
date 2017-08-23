@@ -7,7 +7,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-//        classpath "io.fabric.tools:gradle:$fabricPluginVersion"
+        classpath "io.fabric.tools:gradle:$fabricPluginVersion"
     }
 }
 
@@ -114,6 +114,12 @@ android {
             proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-support-v7-cardview.pro"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    crashlytics {
+        enableNdk true
+        androidNdkOut 'src/main/obj'
+        androidNdkLibsOut 'src/main/libs'
     }
 
     dexOptions {
