@@ -1,0 +1,394 @@
+/**
+ * Inspired with: {@see https://hackernoon.com/android-how-to-add-gradle-dependencies-using-foreach-c4cbcc070458#.jy8ip88jc}
+ */
+apply from: "$rootProject.projectDir/buildsystem/version.gradle"
+
+ext {
+    /* Dependencies */
+    // --------------------------------------------------------------------------------------------
+    d_androidLibs = [
+            annotations:          "com.android.support:support-annotations:${androidAnnotationsVersion}",
+            appCompatV7:          "com.android.support:appcompat-v7:${androidSupportVersion}",
+            design:               "com.android.support:design:${androidDesignVersion}",
+            supportV4:            "com.android.support:support-v4:${androidSupportVersion}",
+            supportV13:           "com.android.support:support-v13:${androidSupportVersion}",
+    ]
+
+    d_archComponents = [
+            lifecycle:            "android.arch.lifecycle:runtime:${archComponentsVersion}",
+            lifecycleApt:         "android.arch.lifecycle:compiler:${archComponentsVersion}",
+            lifecycleExt:         "android.arch.lifecycle:extensions:${archComponentsVersion}",
+            room:                 "android.arch.persistence.room:runtime:${archComponentsVersion}",
+            roomApt:              "android.arch.persistence.room:compiler:${archComponentsVersion}",
+            roomRx:               "android.arch.persistence.room:rxjava2:${archComponentsVersion}",
+    ]
+
+    d_firebase = [
+            firebase:             "com.google.firebase:firebase-core:${googlePlayVersion}",
+    ]
+
+    d_google = [
+            auth:                 "com.google.android.gms:play-services-auth:${googlePlayVersion}",
+            location:             "com.google.android.gms:play-services-location:${googlePlayVersion}",
+            map:                  "com.google.android.gms:play-services-maps:${googlePlayVersion}",
+    ]
+
+    d_kotlin = [
+            anko:                 "org.jetbrains.anko:anko-sdk15:${ankoVersion}",
+            ktStdlib:             "org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}",
+            ktReflect:            "org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}",
+            ktTest:               "org.jetbrains.kotlin:kotlin-test:${kotlinVersion}",
+            ktTestJunit:          "org.jetbrains.kotlin:kotlin-test-junit:${kotlinVersion}",
+    ]
+
+    d_libs = [
+            apacheCollections:    "org.apache.commons:commons-collections4:${apacheCollectionsVersion}",
+            autoService:          "com.google.auto.service:auto-service:${autoServiceVersion}",
+            autoValue:            "com.google.auto.value:auto-value:${autoValueVersion}",
+            autoValueGson:        "com.ryanharter.auto.value:auto-value-gson:${autoValueGsonVersion}",
+            autoValueParcel:      "frankiesardo:auto-parcel:${autoValueParcelVersion}",
+            butterKnife:          "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeCompiler:  "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            crashlytics:          "com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}",
+            dagger:               "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler:       "com.google.dagger:dagger-compiler:${daggerVersion}",
+            eventbus:             "org.greenrobot:eventbus:${eventbusVersion}",
+            facebookSdk:          "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
+            fragmentNavigation:   "com.ncapdevi:frag-nav:${fragmentNavigationVersion}",
+            glide:                "com.github.bumptech.glide:glide:${glideVersion}",
+            glideTransformations: "jp.wasabeef:glide-transformations:${glideTransformationsVersion}",
+            gson:                 "com.google.code.gson:gson:${gsonVersion}",
+            javaxAnnotation:      "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject:          "javax.inject:javax.inject:${javaxInjectVersion}",
+            jodaTime:             "net.danlew:android.joda:${jodaTimeVersion}",
+            kotterKnife:          "com.jakewharton:kotterknife:${kotterKnifeVersion}",
+            leakCanary:           "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+            leakCanaryRelease:    "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}",
+            mosby:                "com.hannesdorfmann.mosby:mvp:${mosbyVersion}",
+            mosbyViewState:       "com.hannesdorfmann.mosby:viewstate:${mosbyVersion}",
+            multidex:             "com.android.support:multidex:${multidexVersion}",
+            multidexTestRunner:   "com.android.support:multidex-instrumentation:${multidexVersion}",
+            okHttp:               "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okHttpLogInterceptor: "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+            okIO:                 "com.squareup.okio:okio:${okIOVersion}",
+            openCSV:              "net.sf.opencsv:opencsv:${openCSVversion}",
+            retrofit:             "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitConvertGson:  "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofitAdapterRx:    "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
+            rxAndroid:            "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxJava:               "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            systembarTint:        "com.readystatesoftware.systembartint:systembartint:${systembarTintVersion}",
+            timber:               "com.jakewharton.timber:timber:${timberVersion}",
+    ]
+
+    d_rxBindings = [
+            appCompatV7:          "com.jakewharton.rxbinding2:rxbinding-appcompat-v7-kotlin:${rxBindingsVersion}",
+            design:               "com.jakewharton.rxbinding2:rxbinding-design-kotlin:${rxBindingsVersion}",
+            leanback:             "com.jakewharton.rxbinding2:rxbinding-leanback-v17-kotlin:${rxBindingsVersion}",
+            platform:             "com.jakewharton.rxbinding2:rxbinding-kotlin:${rxBindingsVersion}",
+            recyclerView:         "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7-kotlin:${rxBindingsVersion}",
+            supportV4:            "com.jakewharton.rxbinding2:rxbinding-support-v4-kotlin:${rxBindingsVersion}",
+    ]
+
+    d_view = [
+            alerter:              "com.tapadoo.android:alerter:${alerterVersion}",
+            appIntro:             "com.github.apl-devs:appintro:${appIntroVersion}",
+            bottomBar:            "com.roughike:bottom-bar:${bottomBarVersion}",
+            cardView:             "com.android.support:cardview-v7:${cardViewVersion}",
+            circleImageView:      "de.hdodenhof:circleimageview:${circleImageViewVersion}",
+            circleLoadingView:    "com.github.jlmd:AnimatedCircleLoadingView:${circleLoadingViewVersion}",
+            constraintLayout:     "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            expandRecyclerView:   "com.bignerdranch.android:expandablerecyclerview:${expandRecyclerViewVersion}",
+            fillableProgress:     "com.github.jorgecastilloprz:fillableloaders:${fillableProgressVersion}",
+            materialCalendar:     "com.prolificinteractive:material-calendarview:${materialCalendarVersion}",
+            materialDrawer:       "com.mikepenz:materialdrawer:${materialDrawerVersion}",
+            overscroll:           "me.everything:overscroll-decor-android:${overscrollVersion}",
+            percentLayout:        "com.android.support:percent:${androidSupportVersion}",
+            progressbar:          "com.github.castorflex.smoothprogressbar:library:${smoothProgressbarVersion}",
+            progressbarCircular:  "com.github.castorflex.smoothprogressbar:library-circular:${smoothProgressbarCircularVersion}",
+            recyclerView:         "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            recyclerViewAnim:     "jp.wasabeef:recyclerview-animators:${recyclerViewAnimVersion}",
+            showcaseView:         "com.github.amlcurran.showcaseview:library:${showcaseViewVersion}",
+            textDrawable:         "com.amulyakhare:com.amulyakhare.textdrawable:${textDrawableVersion}",
+    ]
+
+    d_androidTestLibs = [
+            androidTestRules:     "com.android.support.test:rules:${androidTestRulesVersion}",
+            androidTestRunner:    "com.android.support.test:runner:${androidTestRunnerVersion}",
+            espresso:             "com.android.support.test.espresso:espresso-core:${espressoVersion}",
+            espressoContrib:      "com.android.support.test.espresso:espresso-contrib:${espressoContribVersion}",
+            espressoIntents:      "com.android.support.test.espresso:espresso-intents:${espressoIntentsVersion}",
+            testingSupportLib:    "com.android.support.test:testing-support-lib:${testingSupportLibVersion}",
+    ]
+
+    d_archComponentsTestLibs = [
+            roomTest:             "android.arch.persistence.room:testing:",
+    ]
+
+    d_testLibs = [
+            assertj:              "org.assertj:assertj-core:${assertJVersion}",
+            dexmaker:             "com.google.dexmaker:dexmaker:${dexmakerVersion}",
+            dexmakerMockito:      "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",
+            junit:                "junit:junit:${jUnitVersion}",
+            mockito:              "org.mockito:mockito-core:${mockitoVersion}",
+            mockitoKotlin:        "com.nhaarman:mockito-kotlin:${mockitoKotlinVersion}",
+            powerMock:            "org.powermock:powermock-api-mockito:${powermockVersion}",
+            powerMockClassloader: "org.powermock:powermock-classloading-xstream:${powermockVersion}",
+            powerMockJunit:       "org.powermock:powermock-module-junit4:${powermockVersion}",
+            powerMockJunitRule:   "org.powermock:powermock-module-junit4-rule:${powermockVersion}",
+            robolectric:          "org.robolectric:robolectric:${robolectricVersion}",
+            robolectricShadows:   "org.robolectric:shadows-support-v4:${robolectricVersion}",
+    ]
+
+    /* Modules */
+    // --------------------------------------------------------------------------------------------
+    modules = [
+            app:       ':app',
+            data:      ':data',
+            domain:    ':domain',
+    ]
+
+    def module_app      = [[configuration: "compile", dependency: project(modules.app)]]
+    def module_data     = [[configuration: "compile", dependency: project(modules.data)]]
+    def module_domain   = [[configuration: "compile", dependency: project(modules.domain)]]
+
+    def appModules = module_data + module_domain
+
+    /* Plugins */
+    // --------------------------------------------------------------------------------------------
+    plugins = [
+            androidApp:        "com.android.application",
+            androidLib:        "com.android.library",
+            fabric:            "io.fabric",
+            google:            "com.google.gms.google-services",
+            kotlinAndroid:     "kotlin-android",
+            kotlinAndroidExt:  "kotlin-android-extensions",
+            kotlinAnnotation:  "kotlin-kapt",
+    ]
+
+    /* Pre-Configured dependencies */
+    // --------------------------------------------------------------------------------------------
+    def android = [
+            [configuration: "compile", dependency: d_androidLibs.annotations],
+            [configuration: "compile", dependency: d_androidLibs.appCompatV7],
+            [configuration: "compile", dependency: d_androidLibs.design],
+            [configuration: "compile", dependency: d_androidLibs.supportV4],
+            [configuration: "compile", dependency: d_androidLibs.supportV13],
+//            [configuration: "compile", dependency: d_libs.fragmentNavigation],
+    ]
+
+    def apache = [
+            [configuration: "compile", dependency: d_libs.apacheCollections],
+    ]
+
+    def archLifecycle = [
+            [configuration: "compile", dependency: d_archComponents.lifecycle],
+            [configuration: "kapt",    dependency: d_archComponents.lifecycleApt],
+            [configuration: "compile", dependency: d_archComponents.lifecycleExt],
+    ]
+
+    def archRoom = [
+            [configuration: "compile", dependency: d_archComponents.room],
+            [configuration: "kapt",    dependency: d_archComponents.roomApt],
+            [configuration: "compile", dependency: d_archComponents.roomRx],
+    ]
+
+    def butterKnife = [
+            [configuration: "kapt",    dependency: d_libs.butterKnifeCompiler],
+            [configuration: "compile", dependency: d_libs.butterKnife],
+//            [configuration: "compile", dependency: d_libs.kotterKnife],
+    ]
+
+    def dagger = [
+            [configuration: "kapt",     dependency: d_libs.daggerCompiler],
+            [configuration: "compile",  dependency: d_libs.dagger],
+            [configuration: "compile",  dependency: d_libs.javaxInject],
+            [configuration: "provided", dependency: d_libs.javaxAnnotation],
+    ]
+
+    def firebase = [
+            [configuration: "compile", dependency: d_firebase.firebase],
+    ]
+
+    def google = [
+            [configuration: "compile", dependency: d_google.auth],
+            [configuration: "compile", dependency: d_google.location],
+            [configuration: "compile", dependency: d_google.map],
+    ]
+
+    def kotlin = [
+            [configuration: "compile", dependency: d_kotlin.ktStdlib],
+            [configuration: "compile", dependency: d_kotlin.ktReflect],
+    ]
+
+    def log = [
+            [configuration: "compile", dependency: d_libs.timber],
+    ]
+
+    def network = [
+            [configuration: "compile", dependency: d_libs.gson],
+            [configuration: "compile", dependency: d_libs.okHttp],
+            [configuration: "compile", dependency: d_libs.okHttpLogInterceptor],
+            [configuration: "compile", dependency: d_libs.retrofit],
+            [configuration: "compile", dependency: d_libs.retrofitConvertGson],
+            [configuration: "compile", dependency: d_libs.retrofitAdapterRx],
+    ]
+
+    def rx = [
+            [configuration: "compile", dependency: d_libs.rxAndroid],
+            [configuration: "compile", dependency: d_libs.rxJava],
+    ]
+
+    def rxBindings = [
+            [configuration: "compile", dependency: d_rxBindings.design],
+            [configuration: "compile", dependency: d_rxBindings.platform],
+            [configuration: "compile", dependency: d_rxBindings.supportV4],
+    ]
+
+    def views = [
+            [configuration: "compile", dependency: d_view.alerter],
+            [configuration: "compile", dependency: d_view.appIntro],
+            [configuration: "compile", dependency: d_view.bottomBar],
+            [configuration: "compile", dependency: d_view.cardView],
+            [configuration: "compile", dependency: d_view.circleImageView],
+            [configuration: "compile", dependency: d_view.circleLoadingView],
+            [configuration: "compile", dependency: d_view.constraintLayout],
+            [configuration: "compile", dependency: d_view.expandRecyclerView],
+            [configuration: "compile", dependency: d_view.fillableProgress],
+            [configuration: "compile", dependency: d_view.materialDrawer, options: { transitive = true }],
+            [configuration: "compile", dependency: d_view.overscroll],
+            [configuration: "compile", dependency: d_view.percentLayout],
+            [configuration: "compile", dependency: d_view.progressbar],
+            [configuration: "compile", dependency: d_view.progressbarCircular],
+            [configuration: "compile", dependency: d_view.recyclerView],
+            [configuration: "compile", dependency: d_view.recyclerViewAnim],
+            [configuration: "compile", dependency: d_view.showcaseView],
+            [configuration: "compile", dependency: d_view.textDrawable],
+    ]
+
+    // ------------------------------------------
+    def androidTest = [
+            [configuration: "androidTestCompile", dependency: d_androidTestLibs.androidTestRules, options: {
+                exclude module: 'support-annotations'
+                exclude module: 'support-v4'
+            }],
+            [configuration: "androidTestCompile", dependency: d_androidTestLibs.androidTestRunner, options: {
+                exclude module: 'support-annotations'
+                exclude module: 'support-v4'
+            }],
+            [configuration: "androidTestCompile", dependency: d_androidTestLibs.espresso, options: {
+                exclude group: 'com.android.support', module: 'support-annotations'
+                exclude group: 'com.squareup', module: 'javawriter'
+            }],
+            [configuration: "androidTestCompile", dependency: d_androidTestLibs.espressoContrib, options: {
+                exclude group: 'com.android.support', module: 'design'
+                exclude group: 'com.squareup', module: 'javawriter'
+                exclude module: 'appcompat-v7'
+                exclude module: 'recyclerview-v7'
+                exclude module: 'support-annotations'
+                exclude module: 'support-v4'
+            }],
+            [configuration: "androidTestCompile", dependency: d_androidTestLibs.espressoIntents, options: {
+                exclude group: 'com.squareup', module: 'javawriter'
+                exclude module: 'recyclerview-v7'
+                exclude module: 'support-annotations'
+                exclude module: 'support-v4'
+            }],
+//            [configuration: "androidTestCompile", dependency: d_androidTestLibs.testingSupportLib],
+            [configuration: "androidTestCompile", dependency: d_testLibs.dexmaker],
+            [configuration: "androidTestCompile", dependency: d_testLibs.dexmakerMockito],
+            [configuration: "androidTestCompile", dependency: d_testLibs.mockito],
+    ]
+
+    def test = [
+            [configuration: "testCompile", dependency: d_kotlin.ktStdlib],
+            [configuration: "testCompile", dependency: d_kotlin.ktTest],
+            [configuration: "testCompile", dependency: d_kotlin.ktTestJunit],
+            [configuration: "testCompile", dependency: d_libs.leakCanary],
+            [configuration: "testCompile", dependency: d_testLibs.assertj],
+            [configuration: "testCompile", dependency: d_testLibs.junit],
+            [configuration: "testCompile", dependency: d_testLibs.robolectric, options: {
+                exclude group: 'commons-logging'
+                exclude group: 'org.apache.httpcomponents'
+            }],
+    ]
+
+    def androidMockito = [
+            [configuration: "androidTestCompile", dependency: d_testLibs.mockito],
+            [configuration: "androidTestCompile", dependency: d_testLibs.mockitoKotlin],
+            [configuration: "androidTestCompile", dependency: d_kotlin.ktReflect],  // resolution of version conflict
+    ]
+
+    def mockito = [
+            [configuration: "testCompile", dependency: d_testLibs.mockito],
+            [configuration: "testCompile", dependency: d_testLibs.mockitoKotlin],
+            [configuration: "testCompile", dependency: d_kotlin.ktReflect],  // resolution of version conflict
+    ]
+
+    /* Module dependencies */
+    // --------------------------------------------------------------------------------------------
+    /* App */
+    // ------------------------------------------
+    appDependencies = [
+            [configuration: "compile", dependency: d_libs.crashlytics, options: { transitive = true }],
+            [configuration: "compile", dependency: d_libs.eventbus],
+            [configuration: "compile", dependency: d_libs.glide],
+//            [configuration: "compile", dependency: d_libs.multidex],
+            [configuration: "compile", dependency: d_libs.systembarTint],
+            [configuration: "debugCompile", dependency: d_libs.leakCanary],
+            [configuration: "releaseCompile", dependency: d_libs.leakCanary],
+    ]
+    appDependencies += appModules + android + archLifecycle + butterKnife + dagger + firebase + google + kotlin + log + rx + rxBindings + views
+    androidTestAppDeps = appModules + androidTest + androidMockito
+    androidTestAppDeps += [
+            [configuration: "kaptAndroidTest", dependency: d_libs.daggerCompiler],
+    ]
+    testAppDependencies = appModules + test + mockito
+    testAppDependencies += [
+            [configuration: "kaptTest", dependency: d_libs.daggerCompiler],
+    ]
+
+    appPlugins = [
+            plugins.androidApp,
+            plugins.kotlinAndroid,
+            plugins.kotlinAndroidExt,
+            plugins.kotlinAnnotation,
+//            plugins.fabric,
+    ]
+
+    appPluginsAtBottom = [
+//            plugins.google,
+    ]
+
+    /* Data */
+    // ------------------------------------------
+    dataDependencies = [
+            [configuration: "compile", dependency: d_libs.eventbus],
+    ]
+    dataDependencies += module_domain + dagger + kotlin + log + network + rx
+    testDataDependencies = test + mockito
+    testDataDependencies += [
+            [configuration: "kaptTest", dependency: d_libs.daggerCompiler],
+    ]
+
+    dataPlugins = [
+            plugins.androidLib,
+            plugins.kotlinAndroid,
+            plugins.kotlinAnnotation,
+    ]
+
+    /* Domain */
+    // ------------------------------------------
+    domainDependencies = [
+            [configuration: "compile", dependency: d_libs.gson],
+            [configuration: "compile", dependency: d_libs.jodaTime],
+            [configuration: "compile", dependency: d_libs.openCSV],
+    ]
+    domainDependencies += dagger + kotlin + log + archRoom + rx
+    testDomainDependencies = test
+
+    domainPlugins = [
+            plugins.androidLib,
+            plugins.kotlinAndroid,
+    ]
+}

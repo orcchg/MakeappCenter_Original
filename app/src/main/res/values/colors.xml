@@ -1,6 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="status_bar_color">#000000</color>
+    <color name="app_bar_color">#212121</color>
+    <color name="background_color">#303030</color>
+    <color name="dialog_background_color">#424242</color>
+
+    <color name="colorPrimary">#81d8d1</color>
+    <color name="colorPrimaryDark">#81d8d1</color>
+    <color name="colorPrimaryLight">#abf1cf</color>
+    <color name="colorAccent">#ff5771</color>
+    <color name="colorAccentSemitransparent">#88ff5771</color>
+    <color name="colorAccentOverlay">#33ff5771</color>
+    <color name="white">#ffffff</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="semitransparent">#88000000</color>
+    <color name="semitransparent_white">#88ffffff</color>
+    <color name="dkgrey_bg">#adadad</color>
+    <color name="dkgrey_bg_semi">#88adadad</color>
+    <color name="grey_bg">#f0f0f0</color>
+    <color name="light_grey_bg">#f5f5f5</color>
+    <color name="light_grey_bg_semi">#88f5f5f5</color>
+    <color name="light_dkgrey_bg">#ededed</color>
+    <color name="light_dimgrey_bg">#eaeaea</color>  <!-- darker -->
+    <color name="line_separator">#33979797</color>
+    <color name="light_line_separator">#1f000000</color>
+    <color name="list_line_separator">#42000000</color>
+    <color name="black_5_opacity">#0d000000</color>
+    <color name="black_20_opacity">#33000000</color>
+    <color name="black_40_opacity">#66000000</color>
+    <color name="black_60_opacity">#99000000</color>
+    <color name="inactive">#cacaca</color>
+    <color name="inactive_semi">#88cacaca</color>
+    <color name="inactive_40_opacity">#40cacaca</color>
+    <color name="inactive_80_opacity">#cccacaca</color>
+    <color name="white_25_opacity">#40FFFFFF</color>
+    <color name="white_60_opacity">#99FFFFFF</color>
+    <color name="white_80_opacity">#ccFFFFFF</color>
+
+    <color name="keyword_blob_active_color">#ffa726</color>
+    <color name="keyword_blob_passive_color">#99ffe0b2</color>
+    <color name="keyword_blob_text_color">#ffffff</color>
+    <color name="keyword_blob_text_more_color">#44B300</color>
+    <color name="keyword_blob_text_more_color_pressed">#ff9802</color>
+
+    <color name="label_color">#64d3ca</color>
+    <color name="label_color_light">#60cdc5</color>
+    <color name="red_button">#D32F2F</color>
+    <color name="selection_color">#ff5771</color>
+
+    <color name="textPrimary">#3c4d52</color>
+    <color name="textSecondary">#75888e</color>
+    <color name="textSecondarySemi">#8875888e</color>
+    <color name="textSecondary_25_opacity">#4075888e</color>
+    <color name="textSecondary_50_opacity">#8875888e</color>
+    <color name="textSecondary_60_opacity">#6675888e</color>
+    <color name="textDivider">#BDBDBD</color>
+    <color name="textIcons">#FFFFFF</color>
+    <color name="textError">#B71C1C</color>
+
+    <color name="aquamarine">#02cfb2</color>
+    <color name="happy">#0de3fe</color>
+    <color name="lavender">#c588e5</color>
+    <color name="lime">#d9ec44</color>
+    <color name="mango">#ffab30</color>
+    <color name="midBlue">#27a4bb</color>
+    <color name="raspberry">#ff5771</color>
+    <color name="sky">#27a4dd</color>
+    <color name="teal">#abf1cf</color>
+    <color name="tiffany">#81d8d1</color>
+
+    <array name="colorsPrimary">
+        <item>#D32F2F</item>
+        <item>#C2185B</item>
+        <item>#7B1FA2</item>
+        <item>#512DA8</item>
+        <item>#303F9F</item>
+        <item>#1976D2</item>
+        <item>#0288D1</item>
+        <item>#0097A7</item>
+        <item>#00796B</item>
+        <item>#388E3C</item>
+        <item>#F57C00</item>
+        <item>#E64A19</item>
+        <item>#5D4037</item>
+        <item>#616161</item>
+        <item>#455A64</item>
+    </array>
+
+    <array name="colorsPrimaryDark">
+        <item>#B71C1C</item>
+        <item>#880E4F</item>
+        <item>#4A148C</item>
+        <item>#311B92</item>
+        <item>#1A237E</item>
+        <item>#0D47A1</item>
+        <item>#01579B</item>
+        <item>#006064</item>
+        <item>#004D40</item>
+        <item>#1B5E20</item>
+        <item>#E65100</item>
+        <item>#BF360C</item>
+        <item>#3E2723</item>
+        <item>#212121</item>
+        <item>#263238</item>
+    </array>
+
+    <array name="colorsAccent">
+        <item>#651FFF</item>
+        <item>#3D5AFE</item>
+        <item>#FF1744</item>
+        <item>#F50057</item>
+        <item>#D500F9</item>
+        <item>#1DE9B6</item>
+        <item>#FF9100</item>
+        <item>#FF3D00</item>
+        <item>#FFEA00</item>
+        <item>#FFC400</item>
+        <item>#76FF03</item>
+        <item>#C6FF00</item>
+        <item>#00D0FF</item>
+        <item>#2979FF</item>
+        <item>#00E676</item>
+    </array>
 </resources>

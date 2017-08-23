@@ -1,36 +1,90 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: 'buildsystem/dependencies.gradle'
 
 buildscript {
+    apply from: 'buildsystem/version.gradle'
+
     repositories {
         jcenter()
+        mavenCentral()
+        maven { url "https://maven.fabric.io/public" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath "com.android.tools.build:gradle:$buildGradleVersion"
+        classpath "io.fabric.tools:gradle:$fabricPluginVersion"
+        classpath "com.google.gms:google-services:$googlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-        maven {
-            url "https://maven.google.com"
-        }
-    }
+static String getAppId(boolean isStaging) {
+    if (isStaging) return 'com.orcchg.makeappcenter.staging'
+    return 'com.orcchg.makeappcenter'
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+static String getVersionName(boolean isStaging, int major, int middle, int minor, int build) {
+    String version = "$major.$middle.$minor.$build"
+    if (isStaging) return "$version-staging"
+    return version
 }
 
 ext {
-    buildToolsVersion = "25.0.2"
-    supportLibVersion = "25.3.1"
-    runnerVersion = "0.5"
-    rulesVersion = "0.5"
-    espressoVersion = "2.2.2"
-    archLifecycleVersion = "1.0.0-alpha1"
-    archRoomVersion = "1.0.0-alpha1"
+    isStaging = false
+    proguardPropertiesPath = "${rootProject.rootDir}/android-proguard-snippets/libraries"
+}
+
+allprojects {
+    apply from: "$rootProject.projectDir/buildsystem/module_buildscript.gradle"
+    apply from: "$rootProject.projectDir/buildsystem/preconfig.gradle"
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://maven.google.com" }
+        maven { url 'https://jitpack.io' }  // for AppIntro library
+    }
+
+    def isStaging = rootProject.ext.isStaging
+    print "Build Variant: $isStaging ; "
+
+    ext {
+        majorVersion = 0
+        middleVersion = 0
+        minorVersion = 1
+        buildVersion = 1
+
+        androidApplicationId = getAppId(isStaging)
+        androidVersionCode = buildVersion
+        androidVersionName = getVersionName(isStaging, majorVersion, middleVersion, minorVersion, buildVersion)
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = 'com.orcchg.makeappcenter.test'
+    }
+}
+
+/**
+ * Combine test classes into Jar in order to reference them from different modules.
+ *
+ * @see http://mrhaki.blogspot.ru/2010/11/gradle-goodness-create-jar-artifact.html
+ * @see https://stackoverflow.com/questions/10034084/creating-a-jar-of-test-binaries-gradle
+ * @see https://stackoverflow.com/questions/10835034/gradle-sourcesets-test-classes-not-found
+ * @see https://discuss.gradle.org/t/how-do-i-declare-a-dependency-on-a-modules-test-code/7172/7
+ */
+apply plugin: 'java'
+
+subprojects {
+    configurations {
+        testArtifactsDebug
+        testArtifactsRelease
+    }
+    task packageTestsDebug(type: Jar, dependsOn: 'compileDebugUnitTestSources') {
+//        baseName = "${project.name}-test"
+//        from sourceSets.test.output
+        from 'build/intermediates/classes/test/debug'
+    }
+    task packageTestsRelease(type: Jar, dependsOn: 'compileReleaseUnitTestSources') {
+        from 'build/intermediates/classes/test/release'
+    }
+    artifacts {
+        testArtifactsDebug packageTestsDebug
+        testArtifactsRelease packageTestsRelease
+    }
 }

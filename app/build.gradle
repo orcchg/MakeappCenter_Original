@@ -1,68 +1,221 @@
-apply plugin: 'com.android.application'
+buildscript {
+    apply from: "$rootProject.projectDir/buildsystem/version.gradle"
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+//        classpath "io.fabric.tools:gradle:$fabricPluginVersion"
+    }
+}
+
+repositories {
+    maven { url 'https://dl.bintray.com/amulyakhare/maven' }  // text drawable
+    maven { url "https://dl.bintray.com/jlmd/maven" }  // animated circle loading view
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }  // kotter knife
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+rootProject.appPlugins.each {
+    apply plugin: it
+}
+
+List<String> sngLanguages = ['ba', 'be', 'bg', 'ce', 'cv', 'et',
+                             'kk', 'kv', 'lt', 'lv', 'mk', 'os',
+                             'pl', 'sah', 'sk', 'sl', 'tt', 'uk'];
+
+static String listToJavaArray(List<String> list) {
+    String result = "";
+    list.each { item -> result += (result.empty ? "" : ",") + "\"${item}\"" }
+    return "{${result}}";
+}
+
+static String getAppName(boolean isStaging) {
+    if (isStaging) return "MakeApp Center Staging"
+    return "MakeApp Center"
+}
+
+static String getFileProviderAuthority(boolean isStaging) {
+    if (isStaging) return "com.orcchg.makeappcenter.fileprovider.staging"
+    return "com.orcchg.makeappcenter.fileprovider"
+}
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
     defaultConfig {
-        applicationId "com.orcchg.makeappcenter"
-        minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags "-frtti -fexceptions"
-            }
-        }
+        multiDexEnabled true
+
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        applicationId globalConfiguration["androidApplicationId"]
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+        testApplicationId globalConfiguration["testApplicationId"]
+
+        buildConfigField "String", "SDK_EMULATE_LEVEL", "\"$compileSdkVersion\""
+        buildConfigField "String[]", "SNG_LANGUAGES", listToJavaArray(sngLanguages)
+
+        vectorDrawables.useSupportLibrary = true
     }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    lintOptions {
+        quiet true
+        abortOnError false
+        ignoreWarnings true
+        disable 'InvalidPackage'            // Some libraries have issues with this.
+        disable 'OldTargetApi'              // Lint gives this warning but SDK 20 would be Android L Beta.
+        disable 'IconDensities'             // For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  // For testing purpose. This is safe to remove.
+    }
+
+    def manifestPlaces = [appName:getAppName(isStaging), fileproviderAuthority:getFileProviderAuthority(isStaging)]
+
     buildTypes {
+        debug {
+            manifestPlaceholders = manifestPlaces
+            multiDexEnabled true
+            signingConfig signingConfigs.debug
+        }
         release {
-            minifyEnabled false
+            debuggable false
+            manifestPlaceholders = manifestPlaces
+            minifyEnabled true
+            shrinkResources true
+            multiDexEnabled true
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-androidannotations.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-butterknife-7.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-glide.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-gson.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-square-okhttp3.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-square-okio.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-project.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-realm.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-retrolambda.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-rx-java.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-square-retrofit2.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-support-v7-appcompat.pro"
+            proguardFile "${rootProject.ext.proguardPropertiesPath}/proguard-support-v7-cardview.pro"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    dataBinding {
-        enabled = true
+    dexOptions {
+        javaMaxHeapSize "4g"
     }
 
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
+    sourceSets {
+        main {
+            java.srcDirs += 'src/main/kotlin'
+            res.srcDirs = [
+                    'src/main/res', 'src/main/res-assets',
+                    'src/main/res-screen',
+                    'src/main/res-screen/main',
+                    'src/main/res-screen/splash',
+            ]
         }
-    }
 
-    lintOptions {
-        abortOnError false
+        androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:' + rootProject.supportLibVersion;
-    compile 'com.android.support:cardview-v7:' + rootProject.supportLibVersion;
-    compile 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion;
-    compile 'android.arch.lifecycle:extensions:' + rootProject.archLifecycleVersion;
-    compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
-    annotationProcessor "android.arch.lifecycle:compiler:" + rootProject.archLifecycleVersion;
-    annotationProcessor "android.arch.persistence.room:compiler:" + rootProject.archRoomVersion;
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    testCompile 'junit:junit:4.12'
+    def appDependencies = rootProject.ext.appDependencies
+    def androidTestAppDeps = rootProject.ext.androidTestAppDeps
+    def testAppDependencies = rootProject.ext.testAppDependencies
 
-    // Testing-only dependencies
-    androidTestCompile 'com.android.support.test:runner:' + rootProject.runnerVersion;
-    androidTestCompile 'com.android.support.test:rules:' + rootProject.rulesVersion;
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:' + rootProject.espressoVersion;
-
-    androidTestCompile ('com.android.support.test.espresso:espresso-contrib:2.2'){
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
+    appDependencies.each {
+        add(it.configuration, it.dependency, it.options)
     }
 
-    // Force usage of dependencies in the test app, since it is internally used by the runner module.
-    androidTestCompile 'com.android.support:support-annotations:' + rootProject.supportLibVersion;
-    androidTestCompile 'com.android.support:support-v4:' + rootProject.supportLibVersion;
-    androidTestCompile 'com.android.support:recyclerview-v7:' + rootProject.supportLibVersion;
+    testCompile project(path: ":data", configuration: 'testArtifactsDebug')
+    testAppDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+
+    androidTestCompile ('com.android.support:multidex-instrumentation:1.0.1') {
+        exclude group: 'com.android.support', module: 'multidex'
+    }
+    androidTestCompile project(path: ":data", configuration: 'testArtifactsDebug')
+    androidTestAppDeps.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+}
+
+/* Tasks */
+// ------------------------------------------------------------------------------------------------
+
+/**
+ * Performs before every build
+ */
+android.applicationVariants.all {
+    // ------------------------------------------
+    /**
+     * Copies values-ru/strings.xml to the rest of sng-language resource folders
+     */
+    variant -> variant.mergeResources.doFirst {
+        File tmpResDir = file(buildDir.absolutePath + '/tmp/res')
+        if (!tmpResDir.exists()) { tmpResDir.mkdirs() }
+        sngLanguages.each { language ->
+            File languageDir = file(tmpResDir.absolutePath + "/values-${language}")
+            if (!languageDir.exists()) { languageDir.mkdirs() }
+            copy {
+                from rootDir.absolutePath + '/app/src/main/res-main/values-ru/'
+                into languageDir.absolutePath
+            }
+        }
+        android.sourceSets['main'].res.srcDirs += tmpResDir.absolutePath
+    }
+
+    // ------------------------------------------
+    /**
+     * Makes apk-filename for release builds
+     */
+    def flavor = variant.mergedFlavor;
+    if (variant.buildType.name == "release") {
+        variant.outputs.each { output ->
+            def flavorName = variant.name.replace("Release", "");
+            def name = flavorName + "-" + flavor.versionName + "-b" + flavor.versionCode;
+            if (rootProject.ext.isStaging) {
+                name = name + "-staging";
+            } else {
+                name = name + "-production"
+            }
+            name = name + ".apk";
+            output.outputFile = new File(output.outputFile.parent, name);
+        }
+    } else if (variant.buildType.name == "debug") {
+        flavor.versionName += "-" + variant.name + "-b" + flavor.versionCode;
+    }
+}
+
+rootProject.appPluginsAtBottom.each {
+    apply plugin: it
+}
+
+gradle.afterProject { project, projectState ->
+    if (projectState.failure) {
+        println "Evaluation of $project FAILED"
+    } else {
+        println "Evaluation of $project SUCCEEDED"
+    }
 }

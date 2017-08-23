@@ -1,0 +1,67 @@
+buildscript {
+    apply from: "$rootProject.projectDir/buildsystem/version.gradle"
+
+    repositories {
+        jcenter()
+    }
+    dependencies {}
+}
+
+rootProject.dataPlugins.each {
+    apply plugin: it
+}
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+    def isStaging = rootProject.ext.isStaging
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+
+        buildConfigField "String", "FILE_PROVIDER_AUTHORITY", "\"com.orcchg.makeappcenter.fileprovider\""
+        buildConfigField "boolean", "IS_STAGING", "$isStaging"
+    }
+
+    defaultPublishConfig "debug"
+
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    def dataDependencies = rootProject.ext.dataDependencies
+    def testDataDependencies = rootProject.ext.testDataDependencies
+
+    dataDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+
+    testDataDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+}

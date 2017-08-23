@@ -1,0 +1,61 @@
+buildscript {
+    apply from: "$rootProject.projectDir/buildsystem/version.gradle"
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {}
+}
+
+rootProject.domainPlugins.each {
+    apply plugin: it
+}
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    def domainDependencies = rootProject.ext.domainDependencies
+    def testDomainDependencies = rootProject.ext.testDomainDependencies
+
+    domainDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+
+    testDomainDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+}
