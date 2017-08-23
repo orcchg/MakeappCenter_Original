@@ -148,13 +148,19 @@ ext {
             app:       ':app',
             data:      ':data',
             domain:    ':domain',
+
+            // 3rd-party submodules
+            expandableTextView: ':expandable-text-view',
+            fragNavController:  ':frag-nav-controller',
     ]
 
     def module_app      = [[configuration: "compile", dependency: project(modules.app)]]
     def module_data     = [[configuration: "compile", dependency: project(modules.data)]]
     def module_domain   = [[configuration: "compile", dependency: project(modules.domain)]]
+    def module_3rd_expandableTextView = [[configuration: "compile", dependency: project(modules.expandableTextView)]]
+    def module_3rd_fragNavController  = [[configuration: "compile", dependency: project(modules.fragNavController)]]
 
-    def appModules = module_data + module_domain
+    def appModules = module_data + module_domain + module_3rd_expandableTextView + module_3rd_fragNavController
 
     /* Plugins */
     // --------------------------------------------------------------------------------------------

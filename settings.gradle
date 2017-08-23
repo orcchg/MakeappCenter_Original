@@ -1,1 +1,7 @@
 include ':app', ':data', ':domain'
+
+include ':expandable-text-view'
+project(':expandable-text-view').projectDir = new File('ExpandableTextView/lib')
+
+include ':frag-nav-controller'
+project(':frag-nav-controller').projectDir = new File('FragNav/frag-nav')
