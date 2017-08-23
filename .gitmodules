@@ -1,3 +1,9 @@
 [submodule "android-proguard-snippets"]
 	path = android-proguard-snippets
 	url = https://github.com/krschultz/android-proguard-snippets
+[submodule "FragNav"]
+	path = FragNav
+	url = https://github.com/orcchg/FragNav
+[submodule "ExpandableTextView"]
+	path = ExpandableTextView
+	url = https://github.com/orcchg/ExpandableTextView
