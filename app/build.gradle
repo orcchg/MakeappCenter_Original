@@ -132,7 +132,13 @@ android {
             res.srcDirs = [
                     'src/main/res', 'src/main/res-assets',
                     'src/main/res-screen',
+                    'src/main/res-screen/cart',
+                    'src/main/res-screen/favorite',
+                    'src/main/res-screen/favorite/list',
+                    'src/main/res-screen/home',
+                    'src/main/res-screen/location',
                     'src/main/res-screen/main',
+                    'src/main/res-screen/profile',
                     'src/main/res-screen/splash',
             ]
         }
@@ -169,50 +175,49 @@ dependencies {
 
 /* Tasks */
 // ------------------------------------------------------------------------------------------------
-
 /**
  * Performs before every build
  */
-android.applicationVariants.all {
-    // ------------------------------------------
-    /**
-     * Copies values-ru/strings.xml to the rest of sng-language resource folders
-     */
-    variant -> variant.mergeResources.doFirst {
-        File tmpResDir = file(buildDir.absolutePath + '/tmp/res')
-        if (!tmpResDir.exists()) { tmpResDir.mkdirs() }
-        sngLanguages.each { language ->
-            File languageDir = file(tmpResDir.absolutePath + "/values-${language}")
-            if (!languageDir.exists()) { languageDir.mkdirs() }
-            copy {
-                from rootDir.absolutePath + '/app/src/main/res-main/values-ru/'
-                into languageDir.absolutePath
-            }
-        }
-        android.sourceSets['main'].res.srcDirs += tmpResDir.absolutePath
-    }
-
-    // ------------------------------------------
-    /**
-     * Makes apk-filename for release builds
-     */
-    def flavor = variant.mergedFlavor;
-    if (variant.buildType.name == "release") {
-        variant.outputs.each { output ->
-            def flavorName = variant.name.replace("Release", "");
-            def name = flavorName + "-" + flavor.versionName + "-b" + flavor.versionCode;
-            if (rootProject.ext.isStaging) {
-                name = name + "-staging";
-            } else {
-                name = name + "-production"
-            }
-            name = name + ".apk";
-            output.outputFile = new File(output.outputFile.parent, name);
-        }
-    } else if (variant.buildType.name == "debug") {
-        flavor.versionName += "-" + variant.name + "-b" + flavor.versionCode;
-    }
-}
+//android.applicationVariants.all {
+//    // ------------------------------------------
+//    /**
+//     * Copies values-ru/strings.xml to the rest of sng-language resource folders
+//     */
+//    variant -> variant.mergeResources.doFirst {
+//        File tmpResDir = file(buildDir.absolutePath + '/tmp/res')
+//        if (!tmpResDir.exists()) { tmpResDir.mkdirs() }
+//        sngLanguages.each { language ->
+//            File languageDir = file(tmpResDir.absolutePath + "/values-${language}")
+//            if (!languageDir.exists()) { languageDir.mkdirs() }
+//            copy {
+//                from rootDir.absolutePath + '/app/src/main/res-main/values-ru/'
+//                into languageDir.absolutePath
+//            }
+//        }
+//        android.sourceSets['main'].res.srcDirs += tmpResDir.absolutePath
+//    }
+//
+//    // ------------------------------------------
+//    /**
+//     * Makes apk-filename for release builds
+//     */
+//    def flavor = variant.mergedFlavor;
+//    if (variant.buildType.name == "release") {
+//        variant.outputs.each { output ->
+//            def flavorName = variant.name.replace("Release", "");
+//            def name = flavorName + "-" + flavor.versionName + "-b" + flavor.versionCode;
+//            if (rootProject.ext.isStaging) {
+//                name = name + "-staging";
+//            } else {
+//                name = name + "-production"
+//            }
+//            name = name + ".apk";
+//            output.outputFile = new File(output.outputFile.parent, name);
+//        }
+//    } else if (variant.buildType.name == "debug") {
+//        flavor.versionName += "-" + variant.name + "-b" + flavor.versionCode;
+//    }
+//}
 
 rootProject.appPluginsAtBottom.each {
     apply plugin: it

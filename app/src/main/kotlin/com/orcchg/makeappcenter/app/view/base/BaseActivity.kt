@@ -1,6 +1,9 @@
 package com.orcchg.makeappcenter.app.view.base
 
-import android.app.Activity
+import android.support.v7.app.AppCompatActivity
+import com.orcchg.makeappcenter.app.navigation.Navigator
 
-abstract class BaseActivity : Activity() {
+abstract class BaseActivity : AppCompatActivity() {
+
+    protected val navigator = Navigator()
 }

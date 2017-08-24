@@ -1,0 +1,36 @@
+<tabs>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_home_black_24px"
+        activeColor="?attr/colorAccent"
+        inActiveColor="@color/black_40_opacity"
+        title="@string/main_bottombar_tab_home" />
+
+    <tab
+        id="@+id/tab_location"
+        icon="@drawable/ic_location_on_black_24px"
+        activeColor="?attr/colorAccent"
+        inActiveColor="@color/black_40_opacity"
+        title="@string/main_bottombar_tab_location" />
+
+    <tab
+        id="@+id/tab_favorites"
+        icon="@drawable/ic_favorite_border_black_24px"
+        activeColor="?attr/colorAccent"
+        inActiveColor="@color/black_40_opacity"
+        title="@string/main_bottombar_tab_favorites" />
+
+    <tab
+        id="@+id/tab_profile"
+        icon="@drawable/ic_person_black_24px"
+        activeColor="?attr/colorAccent"
+        inActiveColor="@color/black_40_opacity"
+        title="@string/main_bottombar_tab_profile" />
+
+    <tab
+        id="@+id/tab_cart"
+        icon="@drawable/ic_shopping_cart_black_24px"
+        activeColor="?attr/colorAccent"
+        inActiveColor="@color/black_40_opacity"
+        title="@string/main_bottombar_tab_cart" />
+</tabs>

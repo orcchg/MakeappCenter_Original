@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-</LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:text="Getting Active"
+        android:textSize="30sp" />
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_bottombar_height"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:bb_tabXmlResource="@xml/main_bottombar_tabs"
+        app:bb_titleTextAppearance="@style/BottomBarTextStyle"
+        app:bb_showShadow="false"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_dkgrey_bg"
+        app:layout_constraintBottom_toTopOf="@id/bottom_bar"/>
+
+</android.support.constraint.ConstraintLayout>

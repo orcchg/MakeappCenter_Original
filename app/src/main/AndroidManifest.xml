@@ -11,6 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- Main -->
+        <activity android:name=".view.main.MainActivity"
+            android:label="@string/main_screen_title"
+            android:theme="@style/AppTheme"/>
+
         <!-- Splash -->
         <activity android:name=".view.splash.SplashActivity"
             android:label="${appName}"
@@ -27,5 +32,8 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="528f099ed71d70c9ed0f32a9486fd0f7233c1776"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 </manifest>
