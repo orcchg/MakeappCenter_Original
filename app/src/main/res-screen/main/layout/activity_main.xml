@@ -6,26 +6,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat"
-        android:text="Getting Active"
-        android:textSize="30sp" />
-
     <com.roughike.bottombar.BottomBar
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_bottombar_height"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:bb_showShadow="false"
         app:bb_tabXmlResource="@xml/main_bottombar_tabs"
         app:bb_titleTextAppearance="@style/BottomBarTextStyle"
-        app:bb_showShadow="false"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <View
+        android:id="@+id/underscore"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/light_dkgrey_bg"
-        app:layout_constraintBottom_toTopOf="@id/bottom_bar"/>
+        app:layout_constraintBottom_toTopOf="@id/bottom_bar"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/underscore" />
 
 </android.support.constraint.ConstraintLayout>
