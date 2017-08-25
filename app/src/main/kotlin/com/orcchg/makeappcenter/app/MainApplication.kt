@@ -1,9 +1,24 @@
 package com.orcchg.makeappcenter.app
 
+import android.app.Activity
 import android.app.Application
+import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
 import android.util.Log
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
+import com.orcchg.makeappcenter.app.di.application.ApplicationComponent
+import com.orcchg.makeappcenter.app.di.application.ApplicationModule
+import com.orcchg.makeappcenter.app.di.application.DaggerApplicationComponent
+import com.orcchg.makeappcenter.app.view.base.BaseActivity
+import com.orcchg.makeappcenter.app.view.base.BaseFragment
+import com.orcchg.makeappcenter.data.di.local.DaggerLocalComponent
+import com.orcchg.makeappcenter.data.di.local.LocalComponent
+import com.orcchg.makeappcenter.data.di.local.LocalModule
+import com.orcchg.makeappcenter.data.di.viewmodel.ViewModelComponent
+import com.orcchg.makeappcenter.data.di.viewmodel.ViewModelModule
 import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
 import net.danlew.android.joda.JodaTimeAndroid
@@ -12,6 +27,12 @@ import timber.log.Timber
 
 open class MainApplication : Application() {
 
+    lateinit var applicationComponent: ApplicationComponent private set
+    lateinit var localComponent: LocalComponent private set
+    lateinit var viewModelComponent: ViewModelComponent private set
+
+    /* Lifecycle */
+    // --------------------------------------------------------------------------------------------
     override fun onCreate() {
         super.onCreate()
         if (LeakCanary.isInAnalyzerProcess(this)) {
@@ -22,6 +43,7 @@ open class MainApplication : Application() {
         initializeLeakDetection()
         initializeLogger()  // Logger must be initialized to show logs at the very beginning
         initializeCrashlytics()
+        initializeInjector()
         initializeJodaTime()
         Timber.i("Application onCreate")
     }
@@ -33,6 +55,38 @@ open class MainApplication : Application() {
                 .disabled(BuildConfig.DEBUG)
                 .build()
         Fabric.with(this, Crashlytics.Builder().core(core).build())
+    }
+
+    private fun initializeInjector() {
+        applicationComponent = initAppComponent()
+        localComponent = initLocalComponent()
+        viewModelComponent = initViewModelComponent()
+
+        registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                if (activity is BaseActivity) {
+                    activity.viewModelComponent = viewModelComponent
+                }
+                if (activity is FragmentActivity) {
+                    activity.supportFragmentManager
+                            .registerFragmentLifecycleCallbacks(object : FragmentManager.FragmentLifecycleCallbacks() {
+                                override fun onFragmentPreCreated(fm: FragmentManager, fragment: Fragment, fragmentSavedInstanceState: Bundle?) {
+                                    super.onFragmentPreCreated(fm, fragment, fragmentSavedInstanceState)
+                                    if (fragment is BaseFragment) {
+                                        fragment.viewModelComponent = viewModelComponent
+                                    }
+                                }
+                            }, true)
+                }
+            }
+
+            override fun onActivityStarted(activity: Activity) {}
+            override fun onActivityResumed(activity: Activity) {}
+            override fun onActivityPaused(activity: Activity) {}
+            override fun onActivitySaveInstanceState(activity: Activity, savedInstanceState: Bundle) {}
+            override fun onActivityStopped(activity: Activity) {}
+            override fun onActivityDestroyed(activity: Activity) {}
+        })
     }
 
     private fun initializeJodaTime() {
@@ -57,6 +111,18 @@ open class MainApplication : Application() {
             Timber.plant(CrashlyticsTree())
         }
     }
+
+    /* Components */
+    // --------------------------------------------------------------------------------------------
+    protected fun initAppComponent(): ApplicationComponent = DaggerApplicationComponent.builder()
+            .applicationModule(ApplicationModule(this))
+            .build()
+
+    protected fun initLocalComponent(): LocalComponent = DaggerLocalComponent.builder()
+            .localModule(LocalModule(applicationContext))
+            .build()
+
+    protected fun initViewModelComponent(): ViewModelComponent = localComponent.plus(ViewModelModule())
 
     /* Crashlytics */
     // --------------------------------------------------------------------------------------------

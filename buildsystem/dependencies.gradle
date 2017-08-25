@@ -380,7 +380,7 @@ ext {
     dataDependencies = [
             [configuration: "compile", dependency: d_libs.eventbus],
     ]
-    dataDependencies += module_domain + dagger + kotlin + log + network + rx + shopify
+    dataDependencies += module_domain + archLifecycle + archRoom + dagger + kotlin + log + network + rx + shopify
     testDataDependencies = test + mockito
     testDataDependencies += [
             [configuration: "kaptTest", dependency: d_libs.daggerCompiler],
@@ -399,11 +399,12 @@ ext {
             [configuration: "compile", dependency: d_libs.jodaTime],
             [configuration: "compile", dependency: d_libs.openCSV],
     ]
-    domainDependencies += dagger + kotlin + log + archRoom + rx
+    domainDependencies += archRoom + dagger + kotlin + log + rx
     testDomainDependencies = test
 
     domainPlugins = [
             plugins.androidLib,
             plugins.kotlinAndroid,
+            plugins.kotlinAnnotation,
     ]
 }
