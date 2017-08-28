@@ -77,6 +77,7 @@ ext {
             retrofitConvertGson:  "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
             retrofitAdapterRx:    "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
             rxAndroid:            "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxApollo:             "com.apollographql.apollo:apollo-rx2-support:${apolloVersion}",
             rxJava:               "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
             shopifyBuySdk:        "com.shopify.mobilebuysdk:buy3:${shopifyBuySdkVersion}",
             shopifyBuySdkSupport: "com.shopify.mobilebuysdk:buy3-pay-support:${shopifyBuySdkSupportVersion}",
@@ -380,6 +381,7 @@ ext {
     // ------------------------------------------
     dataDependencies = [
             [configuration: "compile", dependency: d_libs.eventbus],
+            [configuration: "compile", dependency: d_libs.rxApollo],
     ]
     dataDependencies += module_domain + archLifecycle + archRoom + dagger + kotlin + log + network + rx + shopify
     testDataDependencies = test + mockito
