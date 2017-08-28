@@ -11,6 +11,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$buildGradleVersion"
         classpath "io.fabric.tools:gradle:$fabricPluginVersion"
+        classpath "com.apollographql.apollo:gradle-plugin:$apolloVersion"
         classpath "com.google.gms:google-services:$googlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }

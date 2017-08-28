@@ -168,6 +168,7 @@ ext {
     plugins = [
             androidApp:        "com.android.application",
             androidLib:        "com.android.library",
+            apollo:            "com.apollographql.android",
             fabric:            "io.fabric",
             google:            "com.google.gms.google-services",
             kotlinAndroid:     "kotlin-android",
@@ -388,6 +389,7 @@ ext {
 
     dataPlugins = [
             plugins.androidLib,
+            plugins.apollo,
             plugins.kotlinAndroid,
             plugins.kotlinAnnotation,
     ]
