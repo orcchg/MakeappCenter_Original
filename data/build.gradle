@@ -46,7 +46,9 @@ android {
     }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        main {
+            java.srcDirs = ['src/main/graphql', 'src/main/java', 'src/main/kotlin']
+        }
         test.java.srcDirs += 'src/test/kotlin'
     }
 }
@@ -64,4 +66,13 @@ dependencies {
     testDataDependencies.each {
         add(it.configuration, it.dependency, it.options)
     }
+}
+
+apollo {
+    customTypeMapping['URL'] = "String"
+    customTypeMapping['HTML'] = "String"
+    customTypeMapping['Money'] = "java.math.BigDecimal"
+    nullableValueType = "apolloOptional"
+    generateAccessors = false
+    useSemanticNaming = false
 }
