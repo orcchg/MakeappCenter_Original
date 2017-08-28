@@ -98,7 +98,7 @@ buildscript {
         buildGradleVersion = '3.0.0-beta3'
         fabricPluginVersion = '1.+'
         googlePluginVersion = '3.1.0'
-        kotlinVersion = '1.1.4'
+        kotlinVersion = '1.1.4-2'
         leakCanaryVersion = '1.5.1'
         multidexVersion = '1.0.1'
     }
