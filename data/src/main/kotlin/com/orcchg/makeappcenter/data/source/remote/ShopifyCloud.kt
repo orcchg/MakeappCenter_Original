@@ -30,7 +30,7 @@ class ShopifyCloud(private val client: GraphClient) {
                     val collectionEdges = response.data()?.shop?.collections?.edges
                     collectionEdges?.forEach {
                         val productEdges = it.node.products.edges
-                        productEdges.forEach { products.add(it.node) }
+                        productEdges.forEach { products.add(Product.from(it.node)) }
                     }
                     emitter.onNext(products)
                     emitter.onComplete()

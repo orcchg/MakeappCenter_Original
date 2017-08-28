@@ -399,7 +399,7 @@ ext {
             [configuration: "compile", dependency: d_libs.jodaTime],
             [configuration: "compile", dependency: d_libs.openCSV],
     ]
-    domainDependencies += archRoom + dagger + kotlin + log + rx
+    domainDependencies += archRoom + dagger + kotlin + log + rx + shopify
     testDomainDependencies = test
 
     domainPlugins = [
