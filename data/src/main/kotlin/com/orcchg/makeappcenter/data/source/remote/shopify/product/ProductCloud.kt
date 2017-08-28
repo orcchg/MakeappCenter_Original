@@ -12,6 +12,7 @@ import javax.inject.Singleton
 @Singleton
 class ProductCloud @Inject constructor(private val client: GraphClient) {
 
+    // ------------------------------------------
     fun collections(): Flowable<List<ProductCollection>> {
         val query = Storefront.query {
             it.shop {
@@ -86,6 +87,7 @@ class ProductCloud @Inject constructor(private val client: GraphClient) {
         }, BackpressureStrategy.BUFFER)
     }
 
+    // ------------------------------------------
     fun productsForCollection(collectionId: String): Flowable<List<Product>> {
         val query = Storefront.query {
             it.node(ID(collectionId), {
