@@ -1,5 +1,6 @@
 package com.orcchg.makeappcenter.data.source.remote.shopify.product
 
+import com.apollographql.apollo.ApolloClient
 import com.orcchg.makeappcenter.domain.model.Product
 import com.orcchg.makeappcenter.domain.model.ProductCollection
 import com.shopify.buy3.*
@@ -10,7 +11,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ProductCloud @Inject constructor(private val client: GraphClient) {
+class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
+                                       private val shopifyClient: GraphClient) {
 
     // ------------------------------------------
     fun collections(): Flowable<List<ProductCollection>> {
@@ -27,7 +29,7 @@ class ProductCloud @Inject constructor(private val client: GraphClient) {
         }
 
         return Flowable.create<List<ProductCollection>>({ emitter ->
-            client.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
+            shopifyClient.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
                 override fun onResponse(response: GraphResponse<Storefront.QueryRoot>) {
                     val productCollections = mutableListOf<ProductCollection>()
                     val collectionEdges = response.data()?.shop?.collections?.edges
@@ -43,6 +45,13 @@ class ProductCloud @Inject constructor(private val client: GraphClient) {
                 }
             })
         }, BackpressureStrategy.BUFFER)
+
+//        val query = CollectionPageWithProductsQuery.builder()
+//                .perPage(10)
+//                .collectionSortKey(CollectionSortKeys.TITLE)
+//                .build()
+//
+//        RxUtil.rxApolloQueryCall(apolloClient.query(query))
     }
 
     // ------------------------------------------
@@ -68,7 +77,7 @@ class ProductCloud @Inject constructor(private val client: GraphClient) {
         }
 
         return Flowable.create<List<Product>>({ emitter ->
-            client.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
+            shopifyClient.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
                 override fun onResponse(response: GraphResponse<Storefront.QueryRoot>) {
                     val products = mutableListOf<Product>()
                     val collectionEdges = response.data()?.shop?.collections?.edges
@@ -105,7 +114,7 @@ class ProductCloud @Inject constructor(private val client: GraphClient) {
         }
 
         return Flowable.create<List<Product>>({ emitter ->
-            client.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
+            shopifyClient.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
                 override fun onResponse(response: GraphResponse<Storefront.QueryRoot>) {
                     val products = mutableListOf<Product>()
                     val productNodes = response.data()?.nodes

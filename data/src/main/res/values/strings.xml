@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Data</string>
+    <string name="guest_token"></string>
 
     <string name="shopify_api_key">c0f4b7e3e060a074ef1e5ad861adf69f</string>
     <string name="shopify_domain">food-for-space.myshopify.com</string>
