@@ -9,8 +9,11 @@ import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
+import timber.log.Timber
 
 class HomeFragment : BaseFragment() {
+
+    private lateinit var vm: ProductViewModel
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -22,7 +25,7 @@ class HomeFragment : BaseFragment() {
     // --------------------------------------------------------------------------------------------
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val vm = ViewModelProviders.of(this, viewModelComponent.productFactory()).get(ProductViewModel::class.java)
+        vm = ViewModelProviders.of(this, viewModelComponent.productFactory()).get(ProductViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,5 +33,16 @@ class HomeFragment : BaseFragment() {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
         ButterKnife.bind(this, rootView)
         return rootView
+    }
+
+    override fun onStart() {
+        super.onStart()
+        vm.collections().subscribe({ Timber.i("COLLECTIONS: ${it.joinToString()}") })
+        vm.products().subscribe({ Timber.i("PRODUCTS: ${it.joinToString(transform = { it.title })}") })
+
+//        val bigSetsCollectionId = "Z2lkOi8vc2hvcGlmeS9Db2xsZWN0aW9uLzQ0NzM1Njk0OQ"
+//        val dinosCollectionId = "Z2lkOi8vc2hvcGlmeS9Db2xsZWN0aW9uLzQ0NzU4MTA3Nw"
+//        vm.productsForCollection(bigSetsCollectionId).subscribe({ Timber.i("BIG SETS: ${it.joinToString(transform = { it.title })}") })
+//        vm.productsForCollection(dinosCollectionId).subscribe({ Timber.i("DINOS: ${it.joinToString(transform = { it.title })}") })
     }
 }

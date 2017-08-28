@@ -14,9 +14,11 @@ import com.orcchg.makeappcenter.app.di.application.ApplicationModule
 import com.orcchg.makeappcenter.app.di.application.DaggerApplicationComponent
 import com.orcchg.makeappcenter.app.view.base.BaseActivity
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
-import com.orcchg.makeappcenter.data.di.local.DaggerLocalComponent
-import com.orcchg.makeappcenter.data.di.local.LocalComponent
 import com.orcchg.makeappcenter.data.di.local.LocalModule
+import com.orcchg.makeappcenter.data.di.remote.CloudModule
+import com.orcchg.makeappcenter.data.di.repository.DaggerRepositoryComponent
+import com.orcchg.makeappcenter.data.di.repository.RepositoryComponent
+import com.orcchg.makeappcenter.data.di.repository.RepositoryModule
 import com.orcchg.makeappcenter.data.di.viewmodel.ViewModelComponent
 import com.orcchg.makeappcenter.data.di.viewmodel.ViewModelModule
 import com.squareup.leakcanary.LeakCanary
@@ -27,9 +29,7 @@ import timber.log.Timber
 
 open class MainApplication : Application() {
 
-    lateinit var applicationComponent: ApplicationComponent private set
-    lateinit var localComponent: LocalComponent private set
-    lateinit var viewModelComponent: ViewModelComponent private set
+    private lateinit var viewModelComponent: ViewModelComponent
 
     /* Lifecycle */
     // --------------------------------------------------------------------------------------------
@@ -58,9 +58,7 @@ open class MainApplication : Application() {
     }
 
     private fun initializeInjector() {
-        applicationComponent = initAppComponent()
-        localComponent = initLocalComponent()
-        viewModelComponent = initViewModelComponent()
+        viewModelComponent = initViewModelComponent(initRepositoryComponent())
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -114,15 +112,18 @@ open class MainApplication : Application() {
 
     /* Components */
     // --------------------------------------------------------------------------------------------
-    protected fun initAppComponent(): ApplicationComponent = DaggerApplicationComponent.builder()
+    private fun initAppComponent(): ApplicationComponent = DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this))
             .build()
 
-    protected fun initLocalComponent(): LocalComponent = DaggerLocalComponent.builder()
+    private fun initRepositoryComponent(): RepositoryComponent = DaggerRepositoryComponent.builder()
+            .cloudModule(CloudModule(applicationContext))
             .localModule(LocalModule(applicationContext))
+            .repositoryModule(RepositoryModule())
             .build()
 
-    protected fun initViewModelComponent(): ViewModelComponent = localComponent.plus(ViewModelModule())
+    private fun initViewModelComponent(repositoryComponent: RepositoryComponent): ViewModelComponent =
+            repositoryComponent.plus(ViewModelModule())
 
     /* Crashlytics */
     // --------------------------------------------------------------------------------------------
