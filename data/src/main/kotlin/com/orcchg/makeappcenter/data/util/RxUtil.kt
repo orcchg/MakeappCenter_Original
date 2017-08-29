@@ -7,7 +7,6 @@ import com.orcchg.makeappcenter.domain.util.Util
 import io.reactivex.Single
 import io.reactivex.SingleTransformer
 import io.reactivex.exceptions.Exceptions
-import io.reactivex.functions.BiFunction
 
 object RxUtil {
 
@@ -42,7 +41,7 @@ object RxUtil {
                     Single.just(response.data())
                 } else {
                     val errorMessage = Util.fold(StringBuilder(), response.errors(),
-                            BiFunction { builder, error -> builder.append(error.message()).append("\n") })
+                            { builder, error -> builder.append(error.message()).append("\n") })
                     Single.error(RuntimeException(errorMessage.toString()))
                 }
               }

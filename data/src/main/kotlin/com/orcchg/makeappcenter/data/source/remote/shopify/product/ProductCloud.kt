@@ -1,12 +1,18 @@
 package com.orcchg.makeappcenter.data.source.remote.shopify.product
 
 import com.apollographql.apollo.ApolloClient
+import com.orcchg.makeappcenter.data.graphql.CollectionPageWithProductsQuery
+import com.orcchg.makeappcenter.data.graphql.type.CollectionSortKeys
+import com.orcchg.makeappcenter.data.source.remote.shopify.Converters
+import com.orcchg.makeappcenter.data.util.RxUtil
 import com.orcchg.makeappcenter.domain.model.Product
 import com.orcchg.makeappcenter.domain.model.ProductCollection
 import com.shopify.buy3.*
 import com.shopify.graphql.support.ID
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,6 +21,21 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                                        private val shopifyClient: GraphClient) {
 
     // ------------------------------------------
+    fun collectionsApollo(): Single<List<ProductCollection>> {
+        val query = CollectionPageWithProductsQuery.builder()
+                .perPage(10)
+                .collectionSortKey(CollectionSortKeys.TITLE)
+                .build()
+
+        return RxUtil.rxApolloQueryCall(apolloClient.query(query))
+                .map { it.get() }
+                .map { it.shop }
+                .map { it.collectionConnection }
+                .map { it.edges }
+                .subscribeOn(Schedulers.io())
+                .map(Converters::convert)
+    }
+
     fun collections(): Flowable<List<ProductCollection>> {
         val query = Storefront.query {
             it.shop {
@@ -45,13 +66,6 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                 }
             })
         }, BackpressureStrategy.BUFFER)
-
-//        val query = CollectionPageWithProductsQuery.builder()
-//                .perPage(10)
-//                .collectionSortKey(CollectionSortKeys.TITLE)
-//                .build()
-//
-//        RxUtil.rxApolloQueryCall(apolloClient.query(query))
     }
 
     // ------------------------------------------
