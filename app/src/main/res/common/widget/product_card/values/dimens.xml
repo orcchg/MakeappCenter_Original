@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widget_product_card_height">240dp</dimen>
+    <dimen name="widget_product_card_image_height">200dp</dimen>
+
+    <dimen name="widget_product_card_title_text_size">14sp</dimen>
+</resources>

@@ -79,7 +79,14 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                                .products(20, {
                                    it.edges {
                                        it.node {
-                                           it.title()
+                                           it.images(1, {
+                                               it.edges {
+                                                   it.node {
+                                                       it.src()
+                                                   }
+                                               }
+                                           })
+                                             .title()
                                              .description()
                                        }
                                    }

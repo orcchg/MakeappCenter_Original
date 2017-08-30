@@ -130,7 +130,11 @@ android {
         main {
             java.srcDirs += 'src/main/kotlin'
             res.srcDirs = [
-                    'src/main/res', 'src/main/res-assets',
+                    'src/main/res',
+                    'src/main/res/common/adapter',
+                    'src/main/res/common/widget',
+                    'src/main/res/common/widget/product_card',
+                    'src/main/res-assets',
                     'src/main/res-screen',
                     'src/main/res-screen/cart',
                     'src/main/res-screen/favorite',
