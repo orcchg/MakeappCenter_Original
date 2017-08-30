@@ -13,7 +13,6 @@ import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.collection.CollectionsListAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 import timber.log.Timber
 
 class HomeFragment : BaseFragment() {
@@ -46,7 +45,7 @@ class HomeFragment : BaseFragment() {
         collections.layoutManager = LinearLayoutManager(context)
         collections.isNestedScrollingEnabled = false
         collections.adapter = adapter
-        OverScrollDecoratorHelper.setUpOverScroll(collections, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
+//        OverScrollDecoratorHelper.setUpOverScroll(collections, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
 
         return rootView
     }
