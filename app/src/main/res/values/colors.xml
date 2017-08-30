@@ -35,6 +35,7 @@
     <color name="black_60_opacity">#99000000</color>
     <color name="inactive">#cacaca</color>
     <color name="inactive_semi">#88cacaca</color>
+    <color name="inactive_20_opacity">#1dcacaca</color>
     <color name="inactive_40_opacity">#40cacaca</color>
     <color name="inactive_80_opacity">#cccacaca</color>
     <color name="white_25_opacity">#40FFFFFF</color>

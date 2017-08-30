@@ -40,9 +40,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <include layout="@layout/line_progress"/>
+
             <android.support.v4.widget.Space
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/standard_top_padding_small"/>
+                android:layout_height="@dimen/std_padding_small"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_collections"

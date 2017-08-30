@@ -4,36 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.orcchg.makeappcenter.app.common.widget.ForegroundImageView
         android:id="@+id/iv_cover"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginStart="@dimen/widget_product_card_margin_side"
         android:layout_marginEnd="@dimen/widget_product_card_margin_side"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:selectableItemBackground"
         android:minHeight="@dimen/widget_product_card_image_height"
         android:scaleType="centerCrop"
         android:contentDescription="@null"/>
 
-    <TextView
-        android:id="@+id/tv_title"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_top_padding_mini"
+        android:layout_height="1dp"
         android:layout_marginStart="@dimen/widget_product_card_margin_side"
         android:layout_marginEnd="@dimen/widget_product_card_margin_side"
-        android:lines="2"
-        android:paddingStart="@dimen/standard_side_padding_small"
-        android:paddingEnd="@dimen/standard_side_padding_small"
-        android:textSize="@dimen/widget_product_card_title_text_size"
-        tools:text="Dinosaur"/>
+        android:background="@color/inactive_20_opacity"/>
 
-    <include
-        android:id="@+id/tv_price"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/standard_top_padding_mini"
-        android:layout_marginStart="@dimen/widget_product_card_margin_side_price_label"
-        android:layout_marginEnd="@dimen/widget_product_card_margin_side_price_label"
-        layout="@layout/widget_price_label_layout"/>
+        android:layout_marginStart="@dimen/widget_product_card_margin_side"
+        android:layout_marginEnd="@dimen/widget_product_card_margin_side"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/std_padding_mini"
+        android:paddingBottom="@dimen/std_padding_mini">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="2"
+            android:maxLines="2"
+            android:paddingStart="@dimen/std_padding_small"
+            android:paddingEnd="@dimen/std_padding_small"
+            android:textSize="@dimen/widget_product_card_title_text_size"
+            tools:text="Dinosaur"/>
+
+        <include
+            android:id="@+id/tv_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/std_padding_mini"
+            android:layout_marginStart="@dimen/widget_product_card_margin_side_price_label"
+            android:layout_marginEnd="@dimen/widget_product_card_margin_side_price_label"
+            layout="@layout/widget_price_label_layout"/>
+    </LinearLayout>
 </merge>

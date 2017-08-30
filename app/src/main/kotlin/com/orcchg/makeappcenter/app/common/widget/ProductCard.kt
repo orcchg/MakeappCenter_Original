@@ -21,7 +21,7 @@ class ProductCard : LinearLayout {
     @BindView(R.id.tv_title) lateinit var title: TextView
 
     companion object {
-        val CURRENCY_FORMAT = NumberFormat.getCurrencyInstance()
+        val CURRENCY_FORMAT: NumberFormat = NumberFormat.getCurrencyInstance()
     }
 
     constructor(context: Context): this(context, null)
@@ -41,8 +41,8 @@ class ProductCard : LinearLayout {
         val rootView = LayoutInflater.from(context).inflate(R.layout.widget_product_card_layout, this, true)
         ButterKnife.bind(rootView)
 
-        orientation = VERTICAL
         minimumHeight = resources.getDimensionPixelSize(R.dimen.widget_product_card_height)
+        orientation = VERTICAL
     }
 
     /* API */
