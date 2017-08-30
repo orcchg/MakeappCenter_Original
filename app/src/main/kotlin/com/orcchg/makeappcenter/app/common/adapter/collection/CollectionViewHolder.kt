@@ -22,7 +22,7 @@ class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     init {
         ButterKnife.bind(this, itemView)
         products.adapter = adapter
-        OverScrollDecoratorHelper.setUpOverScroll(products)
+//        OverScrollDecoratorHelper.setUpOverScroll(products)
     }
 
     fun bind(model: ProductCollection) {
