@@ -9,7 +9,7 @@ object Converters {
     // --------------------------------------------------------------------------------------------
     fun convert(edges: List<CollectionPageWithProductsQuery.Edge>): List<ProductCollection> {
         val list = mutableListOf<ProductCollection>()
-        edges.forEach { list.add(ProductCollection(it.collection.id, it.collection.title)) }
+//        edges.forEach { list.add(ProductCollection(it.collection.id, it.collection.title)) }
         return list
     }
 }

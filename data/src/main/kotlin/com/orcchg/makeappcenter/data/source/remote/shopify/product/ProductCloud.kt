@@ -43,6 +43,27 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                     it.edges {
                         it.node {
                             it.title()
+                              .products(20, {
+                                  it.edges {
+                                      it.node {
+                                          it.images(1, {
+                                              it.edges {
+                                                  it.node {
+                                                      it.src()
+                                                  }
+                                              }
+                                          }).title()
+                                            .description()
+                                            .variants(20, {
+                                                it.edges {
+                                                    it.node {
+                                                        it.price()
+                                                    }
+                                                }
+                                            })
+                                      }
+                                  }
+                              })
                         }
                     }
                 })
@@ -55,7 +76,12 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                     val productCollections = mutableListOf<ProductCollection>()
                     val collectionEdges = response.data()?.shop?.collections?.edges
                     collectionEdges?.forEach {
-                        productCollections.add(ProductCollection.from(it.node))
+                        val products = mutableListOf<Product>()
+                        val productEdges = it.node.products.edges
+                        productEdges.forEach { products.add(Product.from(it.node)) }
+                        val productCollection = ProductCollection(id = it.node.id.toString(),
+                                products = products, title = it.node.title)
+                        productCollections.add(productCollection)
                     }
                     emitter.onNext(productCollections)
                     emitter.onComplete()
@@ -85,8 +111,7 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                                                        it.src()
                                                    }
                                                }
-                                           })
-                                             .title()
+                                           }).title()
                                              .description()
                                        }
                                    }

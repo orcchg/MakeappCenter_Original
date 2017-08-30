@@ -132,7 +132,9 @@ android {
             res.srcDirs = [
                     'src/main/res',
                     'src/main/res/common/adapter',
+                    'src/main/res/common/adapter/collection',
                     'src/main/res/common/widget',
+                    'src/main/res/common/widget/price_label',
                     'src/main/res/common/widget/product_card',
                     'src/main/res-assets',
                     'src/main/res-screen',

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?attr/refColorAccentDark">
+    <item>
+        <selector>
+            <item android:drawable="?attr/refColorInactive" android:state_enabled="false"/>
+            <item android:drawable="?attr/colorAccent"/>
+        </selector>
+    </item>
+</ripple>

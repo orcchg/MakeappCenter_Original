@@ -1,4 +1,4 @@
-package com.orcchg.makeappcenter.app.common.adapter
+package com.orcchg.makeappcenter.app.common.adapter.product
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
@@ -22,6 +22,7 @@ class ProductsPagerAdapter(private val context: Context) : PagerAdapter() {
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val card = ProductCard(context)
         card.setCover(items[position].coverUrl)
+        card.setPrice(items[position].price)
         card.setTitle(items[position].title)
         container.addView(card)
         return card

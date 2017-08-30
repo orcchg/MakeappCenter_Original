@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Colors">
+        <attr name="refColorAccent" format="reference"/>
+        <attr name="refColorAccentDark" format="reference"/>
+        <attr name="refColorAccentLight" format="reference"/>
+        <attr name="refColorInactive" format="reference"/>
+        <attr name="refColorPrimary" format="reference"/>
+        <attr name="refColorPrimaryDark" format="reference"/>
+        <attr name="refColorPrimaryLight" format="reference"/>
+    </declare-styleable>
+</resources>

@@ -5,10 +5,13 @@
     <color name="background_color">#303030</color>
     <color name="dialog_background_color">#424242</color>
 
-    <color name="colorPrimary">#81d8d1</color>
-    <color name="colorPrimaryDark">#81d8d1</color>
-    <color name="colorPrimaryLight">#abf1cf</color>
-    <color name="colorAccent">#ff5771</color>
+    <color name="black">#000000</color>
+    <color name="colorPrimary">#512da8</color>
+    <color name="colorPrimaryDark">#140078</color>
+    <color name="colorPrimaryLight">#8559da</color>
+    <color name="colorAccent">#40c4ff</color>
+    <color name="colorAccentDark">#0094cc</color>
+    <color name="colorAccentLight">#82f7ff</color>
     <color name="colorAccentSemitransparent">#88ff5771</color>
     <color name="colorAccentOverlay">#33ff5771</color>
     <color name="white">#ffffff</color>

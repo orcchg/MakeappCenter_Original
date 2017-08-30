@@ -11,11 +11,18 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.orcchg.makeappcenter.app.R
+import java.math.BigDecimal
+import java.text.NumberFormat
 
 class ProductCard : LinearLayout {
 
     @BindView(R.id.iv_cover) lateinit var cover: ImageView
+    @BindView(R.id.tv_price) lateinit var price: TextView
     @BindView(R.id.tv_title) lateinit var title: TextView
+
+    companion object {
+        val CURRENCY_FORMAT = NumberFormat.getCurrencyInstance()
+    }
 
     constructor(context: Context): this(context, null)
 
@@ -42,6 +49,10 @@ class ProductCard : LinearLayout {
     // --------------------------------------------------------------------------------------------
     fun setCover(url: String) {
         Glide.with(context).load(url).into(cover)
+    }
+
+    fun setPrice(value: BigDecimal) {
+        price.text = CURRENCY_FORMAT.format(value)
     }
 
     fun setTitle(text: String) {
