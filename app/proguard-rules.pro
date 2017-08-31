@@ -55,7 +55,6 @@
 -dontwarn rx.**
 
 -dontwarn com.roughike.bottombar.**
--dontwarn com.aludio.techops.acorn.data.manager.DataManager
 -dontwarn kotlin.reflect.jvm.internal.**
 -dontwarn com.google.android.gms.**
 
@@ -77,16 +76,6 @@
 ###################################################################################################
 ##################### Customizations ##############################################################
 ###################################################################################################
--dontwarn com.aludio.techops.acorn.app.view.artist.**
--dontwarn com.aludio.techops.acorn.app.view.account.main.AccountFragment
--dontwarn com.aludio.techops.acorn.app.view.account.edit.AccountEditFragment
--dontwarn com.aludio.techops.acorn.app.view.children.create.CreateChildFragment
--dontwarn com.aludio.techops.acorn.app.view.event.details.EventDetailsActivity
--dontwarn com.aludio.techops.acorn.app.view.event.favourite.FavouriteEventListFragment
--dontwarn com.aludio.techops.acorn.app.view.auth.register.RegisterFragment
-
--keep class com.aludio.techops.acorn.domain.model.realm.** { *; }
-
 -keep class com.airbnb.deeplinkdispatch.** { *; }
 -keepclasseswithmembers class * {
      @com.airbnb.deeplinkdispatch.DeepLink <methods>;
