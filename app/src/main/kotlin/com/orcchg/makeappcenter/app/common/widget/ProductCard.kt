@@ -1,15 +1,21 @@
 package com.orcchg.makeappcenter.app.common.widget
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.domain.model.Product
 import java.math.BigDecimal
@@ -18,8 +24,10 @@ import java.text.NumberFormat
 class ProductCard : LinearLayout {
 
     @BindView(R.id.iv_cover) lateinit var cover: ImageView
+    @BindView(R.id.iv_placeholder) lateinit var coverPlaceholder: ImageView
     @BindView(R.id.tv_price) lateinit var price: TextView
     @BindView(R.id.tv_title) lateinit var title: TextView
+    @BindView(R.id.progressbar) lateinit var progressBar: View
 
     companion object {
         val CURRENCY_FORMAT: NumberFormat = NumberFormat.getCurrencyInstance()
@@ -49,7 +57,24 @@ class ProductCard : LinearLayout {
     /* API */
     // --------------------------------------------------------------------------------------------
     fun setCover(url: String) {
-        Glide.with(context).load(url).into(cover)
+        progressBar.visibility = View.VISIBLE
+        Glide.with(context).load(url)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onResourceReady(resource: Drawable, model: Any, target: Target<Drawable>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
+                        progressBar.visibility = View.INVISIBLE
+                        cover.visibility = View.VISIBLE
+                        coverPlaceholder.visibility = View.INVISIBLE
+                        return false
+                    }
+
+                    override fun onLoadFailed(e: GlideException?, model: Any, target: Target<Drawable>, isFirstResource: Boolean): Boolean {
+                        progressBar.visibility = View.INVISIBLE
+                        cover.visibility = View.INVISIBLE
+                        coverPlaceholder.visibility = View.VISIBLE
+                        return true
+                    }
+                })
+                .into(cover)
     }
 
     fun setPrice(value: BigDecimal) {

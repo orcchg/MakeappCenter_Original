@@ -2,8 +2,8 @@
 <fr.castorflex.android.circularprogressbar.CircularProgressBar
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="48dp"
-    android:layout_height="48dp"
+    android:layout_width="@dimen/progressbar_circle_size"
+    android:layout_height="@dimen/progressbar_circle_size"
     android:layout_gravity="center"
     android:indeterminate="true"
     app:spb_color="?attr/colorAccent"

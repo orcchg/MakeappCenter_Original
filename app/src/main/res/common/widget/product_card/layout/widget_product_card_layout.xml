@@ -4,20 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.orcchg.makeappcenter.app.common.widget.ForegroundImageView
-        android:id="@+id/iv_cover"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="@dimen/widget_product_card_margin_vertical"
         android:layout_marginStart="@dimen/widget_product_card_margin_side"
-        android:layout_marginEnd="@dimen/widget_product_card_margin_side"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:selectableItemBackground"
-        android:minHeight="@dimen/widget_product_card_image_height"
-        android:scaleType="centerCrop"
-        android:contentDescription="@null"/>
+        android:layout_marginEnd="@dimen/widget_product_card_margin_side">
+
+        <com.orcchg.makeappcenter.app.common.widget.ForegroundImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:selectableItemBackground"
+            android:minHeight="@dimen/widget_product_card_image_height"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null"/>
+
+        <com.orcchg.makeappcenter.app.common.widget.ForegroundImageView
+            android:id="@+id/iv_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/inactive_80_opacity"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:selectableItemBackground"
+            android:src="@drawable/ic_image_white_48px"
+            android:scaleType="center"
+            android:visibility="invisible"
+            android:contentDescription="@null"/>
+
+        <include
+            android:id="@+id/progressbar"
+            android:layout_width="@dimen/progressbar_circle_size"
+            android:layout_height="@dimen/progressbar_circle_size"
+            android:layout_gravity="center"
+            android:visibility="invisible"
+            layout="@layout/circle_progress"/>
+    </FrameLayout>
 
     <View
         android:layout_width="match_parent"

@@ -4,8 +4,9 @@
     <dimen name="std_padding_mini">8dp</dimen>
     <dimen name="std_padding_small">12dp</dimen>
 
+    <dimen name="progressbar_circle_size">48dp</dimen>
     <dimen name="status_bar_height">24dp</dimen>
     <dimen name="toolbar_min_height">56dp</dimen>
     <dimen name="toolbar_elevation">3dp</dimen>
-    <dimen name="standard_toolbar_inset">10dp</dimen>
+    <dimen name="toolbar_inset">10dp</dimen>
 </resources>

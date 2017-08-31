@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <include layout="@layout/std_toolbar"/>
+    <include layout="@layout/line_progress"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_products"
