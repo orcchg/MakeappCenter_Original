@@ -22,6 +22,10 @@ rootProject.appPlugins.each {
     apply plugin: it
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 List<String> sngLanguages = ['ba', 'be', 'bg', 'ce', 'cv', 'et',
                              'kk', 'kv', 'lt', 'lv', 'mk', 'os',
                              'pl', 'sah', 'sk', 'sl', 'tt', 'uk'];
