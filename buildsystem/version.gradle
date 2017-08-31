@@ -36,6 +36,7 @@ buildscript {
         crashlyticsVersion = '2.6.8@aar'
         crashlyticsNdkVersion = '1.1.6@aar'
         daggerVersion = '2.7'
+        epoxyVersion = '2.3.0'
         eventbusVersion = '3.0.0'
         expandRecyclerViewVersion = '3.0.0-RC1'
         facebookSdkVersion = '4.+'

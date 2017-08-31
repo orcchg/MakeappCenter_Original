@@ -54,6 +54,8 @@ ext {
             crashlyticsNdk:       "com.crashlytics.sdk.android:crashlytics-ndk:${crashlyticsNdkVersion}",
             dagger:               "com.google.dagger:dagger:${daggerVersion}",
             daggerCompiler:       "com.google.dagger:dagger-compiler:${daggerVersion}",
+            epoxy:                "com.airbnb.android:epoxy:${epoxyVersion}",
+            epoxyApt:             "com.airbnb.android:epoxy-processor:${epoxyVersion}",
             eventbus:             "org.greenrobot:eventbus:${eventbusVersion}",
             facebookSdk:          "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
             fragmentNavigation:   "com.ncapdevi:frag-nav:${fragmentNavigationVersion}",
@@ -211,11 +213,25 @@ ext {
 //            [configuration: "compile", dependency: d_libs.kotterKnife],
     ]
 
+    def crashlytics = [
+            [configuration: "compile", dependency: d_libs.crashlytics, options: { transitive = true }],
+            [configuration: "compile", dependency: d_libs.crashlyticsNdk, options: { transitive = true }],
+    ]
+
     def dagger = [
             [configuration: "kapt",     dependency: d_libs.daggerCompiler],
             [configuration: "compile",  dependency: d_libs.dagger],
             [configuration: "compile",  dependency: d_libs.javaxInject],
             [configuration: "provided", dependency: d_libs.javaxAnnotation],
+    ]
+
+    def epoxy = [
+            [configuration: "compile", dependency: d_libs.epoxy],
+            [configuration: "kapt", dependency: d_libs.epoxyApt],
+    ]
+
+    def eventbus = [
+            [configuration: "compile", dependency: d_libs.eventbus],
     ]
 
     def firebase = [
@@ -231,6 +247,11 @@ ext {
     def kotlin = [
             [configuration: "compile", dependency: d_kotlin.ktStdlib],
             [configuration: "compile", dependency: d_kotlin.ktReflect],
+    ]
+
+    def leakCanary = [
+            [configuration: "debugCompile", dependency: d_libs.leakCanary],
+            [configuration: "releaseCompile", dependency: d_libs.leakCanary],
     ]
 
     def log = [
@@ -347,16 +368,13 @@ ext {
     /* App */
     // ------------------------------------------
     appDependencies = [
-            [configuration: "compile", dependency: d_libs.crashlytics, options: { transitive = true }],
-            [configuration: "compile", dependency: d_libs.crashlyticsNdk, options: { transitive = true }],
-            [configuration: "compile", dependency: d_libs.eventbus],
             [configuration: "compile", dependency: d_libs.glide],
 //            [configuration: "compile", dependency: d_libs.multidex],
             [configuration: "compile", dependency: d_libs.systembarTint],
-            [configuration: "debugCompile", dependency: d_libs.leakCanary],
-            [configuration: "releaseCompile", dependency: d_libs.leakCanary],
     ]
-    appDependencies += appModules + android + archLifecycle + butterKnife + dagger + firebase + google + kotlin + log + rx + rxBindings + views
+    appDependencies += appModules + android + archLifecycle + butterKnife + crashlytics + dagger +
+            epoxy + eventbus + firebase + google + kotlin + leakCanary + log + rx + rxBindings + views
+
     androidTestAppDeps = appModules + androidTest + androidMockito
     androidTestAppDeps += [
             [configuration: "kaptAndroidTest", dependency: d_libs.daggerCompiler],
@@ -381,10 +399,11 @@ ext {
     /* Data */
     // ------------------------------------------
     dataDependencies = [
-            [configuration: "compile", dependency: d_libs.eventbus],
             [configuration: "compile", dependency: d_libs.rxApollo],
     ]
-    dataDependencies += module_domain + archLifecycle + archRoom + dagger + kotlin + log + network + rx + shopify
+    dataDependencies += module_domain + archLifecycle + archRoom + dagger + eventbus + kotlin +
+            log + network + rx + shopify
+
     testDataDependencies = test + mockito
     testDataDependencies += [
             [configuration: "kaptTest", dependency: d_libs.daggerCompiler],
