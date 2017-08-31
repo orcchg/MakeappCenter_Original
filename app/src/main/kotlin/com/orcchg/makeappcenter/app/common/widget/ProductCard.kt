@@ -11,6 +11,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.orcchg.makeappcenter.app.R
+import com.orcchg.makeappcenter.domain.model.Product
 import java.math.BigDecimal
 import java.text.NumberFormat
 
@@ -53,6 +54,12 @@ class ProductCard : LinearLayout {
 
     fun setPrice(value: BigDecimal) {
         price.text = CURRENCY_FORMAT.format(value)
+    }
+
+    fun setProduct(product: Product) {
+        setCover(product.coverUrl)
+        setPrice(product.price)
+        setTitle(product.title)
     }
 
     fun setTitle(text: String) {

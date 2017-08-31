@@ -10,7 +10,6 @@ import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.product.ProductsPagerAdapter
 import com.orcchg.makeappcenter.domain.model.ProductCollection
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
-import timber.log.Timber
 
 class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -26,8 +25,8 @@ class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun bind(model: ProductCollection) {
-        Timber.e("Collection[${model.products.size}]: ${model.title}")
-        model.products.forEach { Timber.w("Product: ${it.title}") }
+//        Timber.e("Collection[${model.products.size}]: ${model.title}")
+//        model.products.forEach { Timber.w("Product: ${it.title}") }
         title.text = model.title
         adapter.items = model.products
     }

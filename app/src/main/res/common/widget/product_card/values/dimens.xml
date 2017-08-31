@@ -4,6 +4,7 @@
     <dimen name="widget_product_card_image_height">200dp</dimen>
     <dimen name="widget_product_card_margin_side">5dp</dimen>
     <dimen name="widget_product_card_margin_side_price_label">10dp</dimen>
+    <dimen name="widget_product_card_margin_vertical">5dp</dimen>
 
     <dimen name="widget_product_card_title_text_size">14sp</dimen>
 </resources>

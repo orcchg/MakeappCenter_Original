@@ -373,7 +373,7 @@ ext {
             [configuration: "compile", dependency: d_libs.systembarTint],
     ]
     appDependencies += appModules + android + archLifecycle + butterKnife + crashlytics + dagger +
-            epoxy + eventbus + firebase + google + kotlin + leakCanary + log + rx + rxBindings + views
+            eventbus + firebase + google + kotlin + leakCanary + log + rx + rxBindings + views
 
     androidTestAppDeps = appModules + androidTest + androidMockito
     androidTestAppDeps += [

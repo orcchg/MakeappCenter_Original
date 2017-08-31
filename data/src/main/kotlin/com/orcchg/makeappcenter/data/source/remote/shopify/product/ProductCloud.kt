@@ -102,20 +102,27 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                     it.edges {
                         it.node {
                             it.title()
-                               .products(20, {
-                                   it.edges {
-                                       it.node {
-                                           it.images(1, {
-                                               it.edges {
-                                                   it.node {
-                                                       it.src()
-                                                   }
-                                               }
-                                           }).title()
-                                             .description()
-                                       }
-                                   }
-                               })
+                                .products(20, {
+                                    it.edges {
+                                        it.node {
+                                            it.images(1, {
+                                                it.edges {
+                                                    it.node {
+                                                        it.src()
+                                                    }
+                                                }
+                                            }).title()
+                                                .description()
+                                                .variants(20, {
+                                                    it.edges {
+                                                        it.node {
+                                                            it.price()
+                                                        }
+                                                    }
+                                                })
+                                        }
+                                    }
+                                })
                         }
                     }
                 })
@@ -147,11 +154,24 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
         val query = Storefront.query {
             it.node(ID(collectionId), {
                 it.onCollection {
-                    it.products(10, {
+                    it.products(20, {
                         it.edges {
                             it.node {
-                                it.title()
-                                  .description()
+                                it.images(1, {
+                                    it.edges {
+                                        it.node {
+                                            it.src()
+                                        }
+                                    }
+                                }).title()
+                                    .description()
+                                    .variants(20, {
+                                        it.edges {
+                                            it.node {
+                                                it.price()
+                                            }
+                                        }
+                                    })
                             }
                         }
                     })
@@ -163,9 +183,10 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
             shopifyClient.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
                 override fun onResponse(response: GraphResponse<Storefront.QueryRoot>) {
                     val products = mutableListOf<Product>()
-                    val productNodes = response.data()?.nodes
-                    productNodes?.forEach {
-                        products.add(Product.from(it as Storefront.Product))
+                    val collectionEdges = response.data()?.shop?.collections?.edges
+                    collectionEdges?.forEach {
+                        val productEdges = it.node.products.edges
+                        productEdges.forEach { products.add(Product.from(it.node)) }
                     }
                     emitter.onNext(products)
                     emitter.onComplete()

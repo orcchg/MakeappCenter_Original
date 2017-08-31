@@ -13,7 +13,6 @@ import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.collection.CollectionsListAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
-import timber.log.Timber
 
 class HomeFragment : BaseFragment() {
 
@@ -53,10 +52,10 @@ class HomeFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         vm.collections().subscribe({
-            it.forEach {
-                Timber.i("Collection[${it.products.size}]: ${it.title}")
-                it.products.forEach { Timber.d("Product: ${it.title}") }
-            }
+//            it.forEach {
+//                Timber.i("Collection[${it.products.size}]: ${it.title}")
+//                it.products.forEach { Timber.d("Product: ${it.title}") }
+//            }
             adapter.items = it
         })
 

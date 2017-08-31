@@ -4,8 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <include layout="@layout/std_toolbar"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_products"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Location"/>
+        android:paddingTop="@dimen/products_grid_item_margin"
+        android:paddingStart="@dimen/products_grid_item_margin"
+        android:paddingEnd="@dimen/products_grid_item_margin"
+        android:paddingBottom="@dimen/products_grid_item_margin"
+        android:clipToPadding="false"/>
 </LinearLayout>
