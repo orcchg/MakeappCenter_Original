@@ -139,6 +139,7 @@ android {
                     'src/main/res/common/adapter/collection',
                     'src/main/res/common/adapter/product',
                     'src/main/res/common/widget',
+                    'src/main/res/common/widget/collection_card',
                     'src/main/res/common/widget/price_label',
                     'src/main/res/common/widget/product_card',
                     'src/main/res-assets',

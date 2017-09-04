@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="collections_list_item_margin_side">10dp</dimen>
+    <dimen name="collections_list_item_margin_vertical">5dp</dimen>
     <dimen name="collections_list_item_title_side_margin">20dp</dimen>
     <dimen name="collections_list_item_title_text_size">28sp</dimen>
 </resources>

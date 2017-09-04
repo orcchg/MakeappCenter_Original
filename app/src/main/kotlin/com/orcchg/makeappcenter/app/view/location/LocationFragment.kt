@@ -13,10 +13,12 @@ import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.product.ProductsGridAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 class LocationFragment : BaseFragment() {
 
     @BindView(R.id.rv_products) lateinit var products: RecyclerView
+    @BindView(R.id.progressbar) lateinit var progressbar: View
 
     private lateinit var vm: ProductViewModel
 
@@ -43,12 +45,22 @@ class LocationFragment : BaseFragment() {
         adapter = ProductsGridAdapter()
         products.layoutManager = GridLayoutManager(context, 2)
         products.adapter = adapter
+        OverScrollDecoratorHelper.setUpOverScroll(products, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
 
         return rootView
     }
 
     override fun onStart() {
         super.onStart()
-        vm.products().subscribe { adapter.items = it }
+        vm.products()
+                .doOnSubscribe { showLoading(true) }
+                .doFinally { showLoading(false) }
+                .subscribe { adapter.items = it }
+    }
+
+    /* View */
+    // --------------------------------------------------------------------------------------------
+    private fun showLoading(isVisible: Boolean) {
+        progressbar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

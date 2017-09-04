@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="widget_collection_card_height">240dp</dimen>
+    <dimen name="widget_collection_card_vertical">5dp</dimen>
+    <dimen name="widget_collection_card_title_side_margin">20dp</dimen>
+    <dimen name="widget_collection_card_title_vertical_margin">16dp</dimen>
+
+    <dimen name="widget_collection_card_title_text_size">24sp</dimen>
+</resources>

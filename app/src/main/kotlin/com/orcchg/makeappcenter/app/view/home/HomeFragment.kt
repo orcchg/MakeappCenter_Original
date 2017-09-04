@@ -10,17 +10,18 @@ import android.view.ViewGroup
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
-import com.orcchg.makeappcenter.app.common.adapter.collection.CollectionsListAdapter
+import com.orcchg.makeappcenter.app.common.adapter.collection.ProductCollectionsListAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
 
 class HomeFragment : BaseFragment() {
 
     @BindView(R.id.rv_collections) lateinit var collections: RecyclerView
+    @BindView(R.id.progressbar) lateinit var progressbar: View
 
     private lateinit var vm: ProductViewModel
 
-    private lateinit var adapter: CollectionsListAdapter
+    private lateinit var adapter: ProductCollectionsListAdapter
 
     companion object {
         fun newInstance(): HomeFragment {
@@ -40,7 +41,7 @@ class HomeFragment : BaseFragment() {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
         ButterKnife.bind(this, rootView)
 
-        adapter = CollectionsListAdapter()
+        adapter = ProductCollectionsListAdapter()
         collections.layoutManager = LinearLayoutManager(context)
         collections.isNestedScrollingEnabled = false
         collections.adapter = adapter
@@ -51,7 +52,10 @@ class HomeFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        vm.collections().subscribe({
+        vm.collections()
+                .doOnSubscribe { showLoading(true) }
+                .doFinally { showLoading(false) }
+                .subscribe({
 //            it.forEach {
 //                Timber.i("Collection[${it.products.size}]: ${it.title}")
 //                it.products.forEach { Timber.d("Product: ${it.title}") }
@@ -63,5 +67,11 @@ class HomeFragment : BaseFragment() {
 //        val dinosCollectionId = "Z2lkOi8vc2hvcGlmeS9Db2xsZWN0aW9uLzQ0NzU4MTA3Nw"
 //        vm.productsForCollection(bigSetsCollectionId).subscribe({ Timber.i("BIG SETS: ${it.joinToString(transform = { it.title })}") })
 //        vm.productsForCollection(dinosCollectionId).subscribe({ Timber.i("DINOS: ${it.joinToString(transform = { it.title })}") })
+    }
+
+    /* View */
+    // --------------------------------------------------------------------------------------------
+    private fun showLoading(isVisible: Boolean) {
+        progressbar.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 }

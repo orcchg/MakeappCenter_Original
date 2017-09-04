@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/std_padding"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/collections_list_item_title_side_margin"
+        android:layout_marginEnd="@dimen/collections_list_item_title_side_margin"
+        android:textSize="@dimen/collections_list_item_title_text_size"
+        android:textStyle="bold"
+        tools:text="Dinos"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_products"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/widget_product_card_height"
+        android:layout_marginTop="@dimen/std_padding"
+        android:paddingStart="@dimen/std_padding_small"
+        android:paddingEnd="@dimen/std_padding_small"
+        android:clipToPadding="false"/>
+
+</LinearLayout>

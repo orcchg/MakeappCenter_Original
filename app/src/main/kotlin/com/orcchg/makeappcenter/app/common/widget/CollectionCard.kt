@@ -2,27 +2,20 @@ package com.orcchg.makeappcenter.app.common.widget
 
 import android.content.Context
 import android.support.annotation.StringRes
+import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.widget.common.ImageHolder
-import com.orcchg.makeappcenter.domain.model.Product
-import java.math.BigDecimal
-import java.text.NumberFormat
+import com.orcchg.makeappcenter.domain.model.ProductCollection
 
-class ProductCard : LinearLayout {
+class CollectionCard : ConstraintLayout {
 
-    @BindView(R.id.tv_price) lateinit var price: TextView
     @BindView(R.id.tv_title) lateinit var title: TextView
     private val imageHolder = ImageHolder(context)
-
-    companion object {
-        val CURRENCY_FORMAT: NumberFormat = NumberFormat.getCurrencyInstance()
-    }
 
     constructor(context: Context): this(context, null)
 
@@ -32,16 +25,11 @@ class ProductCard : LinearLayout {
         init(context, attrs, defStyleAttr)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int): super(context, attrs, defStyleAttr, defStyleRes) {
-        init(context, attrs, defStyleAttr)
-    }
-
     // ------------------------------------------
     private fun init(context: Context, attrs: AttributeSet?, defStyleAttr: Int) {
-        val rootView = LayoutInflater.from(context).inflate(R.layout.widget_product_card_layout, this, true)
+        val rootView = LayoutInflater.from(context).inflate(R.layout.widget_collection_card_layout, this, true)
         ButterKnife.bind(rootView)
         imageHolder.init(rootView)
-        orientation = VERTICAL
     }
 
     /* API */
@@ -50,14 +38,9 @@ class ProductCard : LinearLayout {
         imageHolder.setCover(url)
     }
 
-    fun setPrice(value: BigDecimal) {
-        price.text = CURRENCY_FORMAT.format(value)
-    }
-
-    fun setProduct(product: Product) {
-        setCover(product.coverUrl)
-        setPrice(product.price)
-        setTitle(product.title)
+    fun setCollection(collection: ProductCollection) {
+        setCover(collection.coverUrl)
+        setTitle(collection.title)
     }
 
     fun setTitle(text: String) {

@@ -42,7 +42,10 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                 it.collections(20, {
                     it.edges {
                         it.node {
-                            it.title()
+                            it.image {
+                                it.src()
+                            }
+                              .title()
                               .products(20, {
                                   it.edges {
                                       it.node {
@@ -80,7 +83,7 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                         val productEdges = it.node.products.edges
                         productEdges.forEach { products.add(Product.from(it.node)) }
                         val productCollection = ProductCollection(id = it.node.id.toString(),
-                                products = products, title = it.node.title)
+                                coverUrl = it.node.image.src, products = products, title = it.node.title)
                         productCollections.add(productCollection)
                     }
                     emitter.onNext(productCollections)
