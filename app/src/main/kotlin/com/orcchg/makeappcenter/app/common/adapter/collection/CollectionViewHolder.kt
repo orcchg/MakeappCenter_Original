@@ -8,7 +8,8 @@ import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.widget.CollectionCard
 import com.orcchg.makeappcenter.domain.model.ProductCollection
 
-class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class CollectionViewHolder(itemView: View, val l: (collection: ProductCollection, position: Int) -> Unit)
+    : RecyclerView.ViewHolder(itemView) {
 
     @BindView(R.id.collection_card) lateinit var collection: CollectionCard
 
@@ -17,6 +18,7 @@ class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun bind(model: ProductCollection) {
+        itemView.setOnClickListener({ l.invoke(model, adapterPosition) })
         collection.setCollection(model)
     }
 }

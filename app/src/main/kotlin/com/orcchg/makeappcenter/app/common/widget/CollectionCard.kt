@@ -50,4 +50,10 @@ class CollectionCard : ConstraintLayout {
     fun setTitle(@StringRes textResId: Int) {
         title.setText(textResId)
     }
+
+    /* Listener */
+    // --------------------------------------------------------------------------------------------
+//    override fun setOnClickListener(l: View.OnClickListener) {
+//        imageHolder.setOnClickListener(l)
+//    }
 }

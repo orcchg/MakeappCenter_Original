@@ -3,6 +3,7 @@ package com.orcchg.makeappcenter.app.common.widget.common
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -15,6 +16,7 @@ import com.orcchg.makeappcenter.app.R
 
 class ImageHolder(private val context: Context) {
 
+    @BindView(R.id.fl_widget_image) lateinit var rootView: ViewGroup
     @BindView(R.id.iv_cover) lateinit var cover: ImageView
     @BindView(R.id.iv_placeholder) lateinit var coverPlaceholder: ImageView
     @BindView(R.id.progressbar) lateinit var progressBar: View
@@ -44,5 +46,11 @@ class ImageHolder(private val context: Context) {
                     }
                 })
                 .into(cover)
+    }
+
+    /* Listener */
+    // --------------------------------------------------------------------------------------------
+    fun setOnClickListener(l: View.OnClickListener) {
+        rootView.setOnClickListener(l)
     }
 }

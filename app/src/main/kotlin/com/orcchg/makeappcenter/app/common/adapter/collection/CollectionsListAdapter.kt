@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.domain.model.ProductCollection
 
-class CollectionsListAdapter : RecyclerView.Adapter<CollectionViewHolder>() {
+class CollectionsListAdapter(val l: (collection: ProductCollection, position: Int) -> Unit)
+    : RecyclerView.Adapter<CollectionViewHolder>() {
 
     var items: List<ProductCollection> = ArrayList()
         set(l) {
@@ -20,7 +21,7 @@ class CollectionsListAdapter : RecyclerView.Adapter<CollectionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.collections_list_item_layout, parent, false)
-        return CollectionViewHolder(itemView)
+        return CollectionViewHolder(itemView, l)
     }
 
     override fun onBindViewHolder(holder: CollectionViewHolder, position: Int) {
