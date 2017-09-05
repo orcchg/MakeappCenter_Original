@@ -5,6 +5,7 @@ import android.support.annotation.StringRes
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -53,7 +54,7 @@ class CollectionCard : ConstraintLayout {
 
     /* Listener */
     // --------------------------------------------------------------------------------------------
-//    override fun setOnClickListener(l: View.OnClickListener) {
-//        imageHolder.setOnClickListener(l)
-//    }
+    override fun setOnClickListener(l: View.OnClickListener) {
+        imageHolder.setOnClickListener(l)
+    }
 }

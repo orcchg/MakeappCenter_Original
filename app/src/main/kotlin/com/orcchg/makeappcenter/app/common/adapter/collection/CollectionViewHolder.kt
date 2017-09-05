@@ -18,7 +18,7 @@ class CollectionViewHolder(itemView: View, val l: (collection: ProductCollection
     }
 
     fun bind(model: ProductCollection) {
-        itemView.setOnClickListener({ l.invoke(model, adapterPosition) })
+        collection.setOnClickListener({ l.invoke(model, adapterPosition) })
         collection.setCollection(model)
     }
 }

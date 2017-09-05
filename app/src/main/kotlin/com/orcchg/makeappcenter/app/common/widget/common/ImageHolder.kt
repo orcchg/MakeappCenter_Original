@@ -51,6 +51,6 @@ class ImageHolder(private val context: Context) {
     /* Listener */
     // --------------------------------------------------------------------------------------------
     fun setOnClickListener(l: View.OnClickListener) {
-        rootView.setOnClickListener(l)
+        cover.setOnClickListener(l)
     }
 }
