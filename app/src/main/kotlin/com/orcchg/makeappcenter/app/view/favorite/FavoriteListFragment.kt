@@ -52,8 +52,8 @@ class FavoriteListFragment : BaseFragment() {
         val rootView = inflater.inflate(R.layout.fragment_favorite_list, container, false)
         ButterKnife.bind(this, rootView)
 
-        adapter = CollectionsListAdapter({ collection, position ->
-            fragmentNavigation?.pushFragment(CollectionDetailsFragment.newInstance())
+        adapter = CollectionsListAdapter({ (id), _ ->
+            fragmentNavigation?.pushFragment(CollectionDetailsFragment.newInstance(id))
         })
         collections.layoutManager = LinearLayoutManager(context)
         collections.adapter = adapter

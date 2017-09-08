@@ -20,15 +20,15 @@ class LocationFragment : BaseFragment() {
     @BindView(R.id.rv_products) lateinit var products: RecyclerView
     @BindView(R.id.progressbar) lateinit var progressbar: View
 
-    private lateinit var vm: ProductViewModel
-
-    private lateinit var adapter: ProductsGridAdapter
-
     companion object {
         fun newInstance(): LocationFragment {
             return LocationFragment()
         }
     }
+
+    private lateinit var vm: ProductViewModel
+
+    private lateinit var adapter: ProductsGridAdapter
 
     /* Lifecycle */
     // --------------------------------------------------------------------------------------------

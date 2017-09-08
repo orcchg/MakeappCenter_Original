@@ -13,21 +13,27 @@ import javax.inject.Singleton
 class ProductRepository @Inject constructor(private val productCloud: ProductCloud,
                                             private val productDao: ProductDao) {
 
+    fun collection(collectionId: String): Flowable<ProductCollection> {
+        // TODO: from local
+        return productCloud.collection(collectionId)
+                .compose(RepositoryUtility.mainTransformer())
+    }
+
     fun collections(): Flowable<List<ProductCollection>> {
         // TODO: from local
         return productCloud.collections()
-                .compose(RepositoryUtility.applySchedulers())
+                .compose(RepositoryUtility.mainTransformer())
     }
 
     fun products(): Flowable<List<Product>> {
         // TODO: from local
         return productCloud.products()
-                .compose(RepositoryUtility.applySchedulers())
+                .compose(RepositoryUtility.mainTransformer())
     }
 
     fun productsForCollection(collectionId: String): Flowable<List<Product>> {
         // TODO: from local
         return productCloud.productsForCollection(collectionId)
-                .compose(RepositoryUtility.applySchedulers())
+                .compose(RepositoryUtility.mainTransformer())
     }
 }

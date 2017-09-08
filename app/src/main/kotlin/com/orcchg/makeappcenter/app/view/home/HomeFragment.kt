@@ -19,15 +19,15 @@ class HomeFragment : BaseFragment() {
     @BindView(R.id.rv_collections) lateinit var collections: RecyclerView
     @BindView(R.id.progressbar) lateinit var progressbar: View
 
-    private lateinit var vm: ProductViewModel
-
-    private lateinit var adapter: ProductCollectionsListAdapter
-
     companion object {
         fun newInstance(): HomeFragment {
             return HomeFragment()
         }
     }
+
+    private lateinit var vm: ProductViewModel
+
+    private lateinit var adapter: ProductCollectionsListAdapter
 
     /* Lifecycle */
     // --------------------------------------------------------------------------------------------

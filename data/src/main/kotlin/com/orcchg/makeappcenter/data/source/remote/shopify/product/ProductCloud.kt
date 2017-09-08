@@ -36,6 +36,53 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
                 .map(Converters::convert)
     }
 
+    fun collection(collectionId: String): Flowable<ProductCollection> {
+        val query = Storefront.query {
+            it.node(ID(collectionId), {
+                it.onCollection {
+                    it.products(20, {
+                        it.edges {
+                            it.node {
+                                it.images(1, {
+                                    it.edges {
+                                        it.node {
+                                            it.src()
+                                        }
+                                    }
+                                }).title()
+                                    .description()
+                                    .variants(20, {
+                                        it.edges {
+                                            it.node {
+                                                it.price()
+                                            }
+                                        }
+                                    })
+                            }
+                        }
+                    })
+                }
+            })
+        }
+
+        return Flowable.create<ProductCollection>({ emitter ->
+            shopifyClient.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
+                override fun onResponse(response: GraphResponse<Storefront.QueryRoot>) {
+//                    val products = mutableListOf<Product>()
+                    val collectionEdge = response.data()?.shop?.collections?.edges?.get(0)
+//                    val productEdges = collectionEdge?.node?.products?.edges
+//                    productEdges?.forEach { products.add(Product.from(it.node)) }
+                    emitter.onNext(ProductCollection.from(collectionEdge!!.node))
+                    emitter.onComplete()
+                }
+
+                override fun onFailure(error: GraphError) {
+                    emitter.onError(error)
+                }
+            })
+        }, BackpressureStrategy.BUFFER)
+    }
+
     fun collections(): Flowable<List<ProductCollection>> {
         val query = Storefront.query {
             it.shop {
