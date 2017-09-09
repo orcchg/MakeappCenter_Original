@@ -6,6 +6,9 @@ import com.apollographql.apollo.CustomTypeAdapter
 import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ihsanbal.logging.Level
+import com.ihsanbal.logging.LoggingInterceptor
+import com.orcchg.makeappcenter.data.BuildConfig
 import com.orcchg.makeappcenter.data.R
 import com.orcchg.makeappcenter.data.graphql.type.CustomType
 import com.orcchg.makeappcenter.data.source.remote.network.RequestHeaderInterceptor
@@ -15,7 +18,7 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.internal.platform.Platform
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -54,11 +57,15 @@ class CloudModule(private val context: Context) {
     /* OkHttp */
     // --------------------------------------------------------------------------------------------
     @Provides @Singleton
-    internal fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        return interceptor
-    }
+    internal fun provideHttpLoggingInterceptor(): LoggingInterceptor =
+        LoggingInterceptor.Builder()
+                .loggable(BuildConfig.DEBUG)
+                .setLevel(Level.BASIC)
+                .log(Platform.INFO)
+                .request("Request")
+                .response("Response")
+                .addHeader("version", BuildConfig.VERSION_NAME)
+                .build()
 
     @Provides @Singleton
     internal fun provideRequestHeaderInterceptor(): RequestHeaderInterceptor {
@@ -77,10 +84,10 @@ class CloudModule(private val context: Context) {
     @Provides @Singleton
     internal fun provideOkHttpClient(errorInterceptor: ResponseErrorInterceptor,
                                      headerInterceptor: RequestHeaderInterceptor,
-                                     logInterceptor: HttpLoggingInterceptor): OkHttpClient {
+                                     logInterceptor: LoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-                .addInterceptor(errorInterceptor)
-                .addInterceptor(headerInterceptor)
+//                .addInterceptor(errorInterceptor)
+//                .addInterceptor(headerInterceptor)
                 .addInterceptor(logInterceptor)  // logging interceptor must be initialized last to log properly
                 .readTimeout(30, TimeUnit.SECONDS)
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -100,12 +107,13 @@ class CloudModule(private val context: Context) {
     /* Shopify */
     // --------------------------------------------------------------------------------------------
     @Provides @Singleton
-    fun provideShopifyGraphClient(): GraphClient {
+    fun provideShopifyGraphClient(okHttpClient: OkHttpClient): GraphClient {
         val accessToken = context.getString(R.string.shopify_api_key)
         val shopDomain = context.getString(R.string.shopify_domain)
         return GraphClient.builder(context)
                 .accessToken(accessToken)
                 .shopDomain(shopDomain)
+                .httpClient(okHttpClient)
                 .build()
     }
 }

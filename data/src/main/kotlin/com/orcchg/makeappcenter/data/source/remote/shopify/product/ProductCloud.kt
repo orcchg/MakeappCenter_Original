@@ -40,6 +40,10 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
         val query = Storefront.query {
             it.node(ID(collectionId), {
                 it.onCollection {
+                    it.image {
+                        it.src()
+                    }
+                    it.title()
                     it.products(20, {
                         it.edges {
                             it.node {
@@ -68,11 +72,8 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
         return Flowable.create<ProductCollection>({ emitter ->
             shopifyClient.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
                 override fun onResponse(response: GraphResponse<Storefront.QueryRoot>) {
-//                    val products = mutableListOf<Product>()
-                    val collectionEdge = response.data()?.shop?.collections?.edges?.get(0)
-//                    val productEdges = collectionEdge?.node?.products?.edges
-//                    productEdges?.forEach { products.add(Product.from(it.node)) }
-                    emitter.onNext(ProductCollection.from(collectionEdge!!.node))
+                    val collection = response.data()?.node as Storefront.Collection
+                    emitter.onNext(ProductCollection.from(collection))
                     emitter.onComplete()
                 }
 
