@@ -4,8 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <include layout="@layout/std_toolbar"/>
+    <include layout="@layout/line_progress"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_products"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cart"/>
+        android:paddingTop="@dimen/collections_list_item_margin_vertical"
+        android:paddingStart="@dimen/collections_list_item_margin_side"
+        android:paddingEnd="@dimen/collections_list_item_margin_side"
+        android:paddingBottom="@dimen/collections_list_item_margin_vertical"
+        android:clipToPadding="false"/>
 </LinearLayout>

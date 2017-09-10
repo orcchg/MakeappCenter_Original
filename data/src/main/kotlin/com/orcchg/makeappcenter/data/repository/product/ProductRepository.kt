@@ -1,5 +1,6 @@
 package com.orcchg.makeappcenter.data.repository.product
 
+import com.orcchg.makeappcenter.data.repository.Repository
 import com.orcchg.makeappcenter.data.repository.RepositoryUtility
 import com.orcchg.makeappcenter.data.source.local.product.ProductDao
 import com.orcchg.makeappcenter.data.source.remote.shopify.product.ProductCloud
@@ -11,7 +12,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ProductRepository @Inject constructor(private val productCloud: ProductCloud,
-                                            private val productDao: ProductDao) {
+                                            private val productDao: ProductDao)
+    : Repository() {
 
     fun collection(collectionId: String): Flowable<ProductCollection> {
         // TODO: from local

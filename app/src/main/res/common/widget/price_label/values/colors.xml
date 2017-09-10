@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cart_button_bg_color_add">#40c4ff</color>
+    <color name="cart_button_bg_color_remove">#44B300</color>
+</resources>

@@ -29,6 +29,7 @@ import timber.log.Timber
 
 open class MainApplication : Application() {
 
+    private lateinit var repositoryComponent: RepositoryComponent
     private lateinit var viewModelComponent: ViewModelComponent
 
     /* Lifecycle */
@@ -48,6 +49,12 @@ open class MainApplication : Application() {
         Timber.i("Application onCreate")
     }
 
+//    override fun onTrimMemory(level: Int) {
+//        super.onTrimMemory(level)
+//        repositoryComponent.cartRepository().onDestroy()
+//        repositoryComponent.productRepository().onDestroy()
+//    }
+
     /* Initialization */
     // --------------------------------------------------------------------------------------------
     private fun initializeCrashlytics() {
@@ -58,7 +65,11 @@ open class MainApplication : Application() {
     }
 
     private fun initializeInjector() {
-        viewModelComponent = initViewModelComponent(initRepositoryComponent())
+        repositoryComponent = initRepositoryComponent()
+//        repositoryComponent.cartRepository().onCreate()
+//        repositoryComponent.productRepository().onCreate()
+
+        viewModelComponent = initViewModelComponent(repositoryComponent)
 
         registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {

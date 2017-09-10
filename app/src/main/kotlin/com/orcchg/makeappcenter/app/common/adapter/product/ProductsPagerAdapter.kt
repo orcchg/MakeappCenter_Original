@@ -21,9 +21,7 @@ class ProductsPagerAdapter(private val context: Context) : PagerAdapter() {
     // --------------------------------------------------------------------------------------------
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val card = ProductCard(context)
-        card.setCover(items[position].coverUrl)
-        card.setPrice(items[position].price)
-        card.setTitle(items[position].title)
+        card.setProduct(items[position])
         container.addView(card)
         return card
     }

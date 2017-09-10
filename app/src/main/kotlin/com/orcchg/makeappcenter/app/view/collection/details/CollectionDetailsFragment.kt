@@ -15,7 +15,6 @@ import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.product.ProductsGridAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
-import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 class CollectionDetailsFragment : BaseFragment() {
 
@@ -57,7 +56,7 @@ class CollectionDetailsFragment : BaseFragment() {
         adapter = ProductsGridAdapter()
         products.layoutManager = GridLayoutManager(context, 2)
         products.adapter = adapter
-        OverScrollDecoratorHelper.setUpOverScroll(products, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
+//        OverScrollDecoratorHelper.setUpOverScroll(products, OverScrollDecoratorHelper.ORIENTATION_VERTICAL)
 
         return rootView
     }

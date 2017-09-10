@@ -4,13 +4,16 @@ import android.content.Context
 import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.widget.common.ImageHolder
+import com.orcchg.makeappcenter.data.eventbus.ProductToCartEvent
 import com.orcchg.makeappcenter.domain.model.Product
+import org.greenrobot.eventbus.EventBus
 import java.math.BigDecimal
 import java.text.NumberFormat
 
@@ -19,6 +22,9 @@ class ProductCard : LinearLayout {
     @BindView(R.id.tv_price) lateinit var price: TextView
     @BindView(R.id.tv_title) lateinit var title: TextView
     private val imageHolder = ImageHolder(context)
+
+    private var product: Product? = null
+    private var onCartClickListener: ((view: View) -> Unit)? = null
 
     companion object {
         val CURRENCY_FORMAT: NumberFormat = NumberFormat.getCurrencyInstance()
@@ -42,29 +48,44 @@ class ProductCard : LinearLayout {
         ButterKnife.bind(rootView)
         imageHolder.init(rootView)
         orientation = VERTICAL
+
+        price.setOnClickListener({
+            if (product != null) {
+                EventBus.getDefault().post(ProductToCartEvent(product!!))
+            }
+            onCartClickListener?.invoke(it)
+        })
     }
 
     /* API */
     // --------------------------------------------------------------------------------------------
-    fun setCover(url: String) {
-        imageHolder.setCover(url)
-    }
-
-    fun setPrice(value: BigDecimal) {
-        price.text = CURRENCY_FORMAT.format(value)
-    }
-
     fun setProduct(product: Product) {
+        this.product = product
         setCover(product.coverUrl)
         setPrice(product.price)
         setTitle(product.title)
     }
 
-    fun setTitle(text: String) {
+    // ------------------------------------------
+    private fun setCover(url: String) {
+        imageHolder.setCover(url)
+    }
+
+    private fun setPrice(value: BigDecimal) {
+        price.text = CURRENCY_FORMAT.format(value)
+    }
+
+    private fun setTitle(text: String) {
         title.text = text
     }
 
-    fun setTitle(@StringRes textResId: Int) {
+    private fun setTitle(@StringRes textResId: Int) {
         title.setText(textResId)
+    }
+
+    /* Listener */
+    // ------------------------------------------
+    fun setOnCartClickListener(l: ((view: View) -> Unit)?) {
+        onCartClickListener = l
     }
 }

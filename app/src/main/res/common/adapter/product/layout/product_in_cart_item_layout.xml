@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/product_in_card_margin_side"
+    android:layout_marginStart="@dimen/product_in_card_margin_vertical"
+    android:layout_marginEnd="@dimen/product_in_card_margin_vertical"
+    android:layout_marginBottom="@dimen/product_in_card_margin_side"
+    android:orientation="horizontal">
+
+    <include layout="@layout/widget_image"
+        android:layout_width="@dimen/product_in_card_image_size"
+        android:layout_height="@dimen/product_in_card_image_size"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:lines="2"
+        android:maxLines="2"
+        android:paddingStart="@dimen/std_padding_small"
+        android:paddingEnd="@dimen/std_padding_small"
+        android:textSize="@dimen/std_text_size_title"
+        tools:text="Dinosaur"/>
+</LinearLayout>

@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.domain.model.Product
 
-class ProductsGridAdapter : RecyclerView.Adapter<ProductGridViewHolder>() {
+class ProductsInCartAdapter : RecyclerView.Adapter<ProductInCartViewHolder>() {
 
     var items: List<Product> = ArrayList()
         set(l) {
@@ -18,12 +18,12 @@ class ProductsGridAdapter : RecyclerView.Adapter<ProductGridViewHolder>() {
     // --------------------------------------------------------------------------------------------
     override fun getItemCount() = items.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductGridViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.products_grid_item_layout, parent, false)
-        return ProductGridViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductInCartViewHolder {
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.product_in_cart_item_layout, parent, false)
+        return ProductInCartViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: ProductGridViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductInCartViewHolder, position: Int) {
         holder.bind(items[position])
     }
 }
