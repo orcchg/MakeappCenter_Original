@@ -20,11 +20,13 @@
         android:background="@color/inactive_20_opacity"/>
 
     <LinearLayout
+        android:id="@+id/ll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/widget_product_card_margin_side"
         android:layout_marginEnd="@dimen/widget_product_card_margin_side"
         android:layout_marginBottom="@dimen/widget_product_card_margin_vertical"
+        android:animateLayoutChanges="true"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingTop="@dimen/std_padding_mini"
@@ -41,14 +43,5 @@
             android:paddingEnd="@dimen/std_padding_small"
             android:textSize="@dimen/widget_product_card_title_text_size"
             tools:text="Dinosaur"/>
-
-        <include
-            android:id="@+id/tv_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/std_padding_mini"
-            android:layout_marginStart="@dimen/widget_product_card_margin_side_price_label"
-            android:layout_marginEnd="@dimen/widget_product_card_margin_side_price_label"
-            layout="@layout/widget_price_label_layout"/>
     </LinearLayout>
 </merge>

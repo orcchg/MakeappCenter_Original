@@ -9,4 +9,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected val navigator = Navigator()
 
     lateinit var viewModelComponent: ViewModelComponent
+
+    /* Lifecycle */
+    // --------------------------------------------------------------------------------------------
 }

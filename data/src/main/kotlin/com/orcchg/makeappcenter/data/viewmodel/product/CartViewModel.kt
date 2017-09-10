@@ -5,5 +5,7 @@ import com.orcchg.makeappcenter.data.repository.product.CartRepository
 
 class CartViewModel(private val repository: CartRepository) : ViewModel() {
 
+    fun cartSize() = repository.cartSize()
+
     fun productsInCart() = repository.productsInCart()
 }

@@ -1,6 +1,7 @@
 package com.orcchg.makeappcenter.app.view.main
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -16,7 +17,12 @@ import com.orcchg.makeappcenter.app.view.favorite.FavoriteListFragment
 import com.orcchg.makeappcenter.app.view.home.HomeFragment
 import com.orcchg.makeappcenter.app.view.location.LocationFragment
 import com.orcchg.makeappcenter.app.view.profile.ProfileFragment
+import com.orcchg.makeappcenter.data.eventbus.ProductAddToCartEvent
+import com.orcchg.makeappcenter.data.viewmodel.product.CartViewModel
 import com.roughike.bottombar.BottomBar
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class MainActivity : BaseActivity(), FragNavController.RootFragmentListener,
         FragNavController.TransactionListener, FragmentNavigationHandler {
@@ -39,6 +45,8 @@ class MainActivity : BaseActivity(), FragNavController.RootFragmentListener,
         }
     }
 
+    private lateinit var vm: CartViewModel
+
     // ------------------------------------------
     private lateinit var fragmentNavigationController: FragNavController
 
@@ -50,11 +58,20 @@ class MainActivity : BaseActivity(), FragNavController.RootFragmentListener,
         ButterKnife.bind(this)
         initView(savedInstanceState)
         initBottomBar()
+
+        EventBus.getDefault().register(this)
+
+        vm = ViewModelProviders.of(this, viewModelComponent.cartFactory()).get(CartViewModel::class.java)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         fragmentNavigationController.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        EventBus.getDefault().unregister(this)
     }
 
     /* View */
@@ -115,5 +132,12 @@ class MainActivity : BaseActivity(), FragNavController.RootFragmentListener,
 
     override fun pushFragment(fragment: Fragment) {
         fragmentNavigationController.pushFragment(fragment)
+    }
+
+    /* Event Bus */
+    // --------------------------------------------------------------------------------------------
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onProductAddToCartEvent(event: ProductAddToCartEvent) {
+        vm.cartSize().subscribe { bottomBar.getTabWithId(R.id.tab_cart).setBadgeCount(it) }
     }
 }

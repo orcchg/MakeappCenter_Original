@@ -13,6 +13,9 @@ interface CartDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addProductToCart(product: Product)
 
+    @Query("SELECT COUNT(*) FROM products")
+    fun cartSize(): Flowable<Int>
+
     @Query("SELECT * FROM products")
     fun productsInCart(): Flowable<List<Product>>
 }
