@@ -27,6 +27,12 @@ class ProductRepository @Inject constructor(private val productCloud: ProductClo
                 .compose(Rx.flowableTransformer())
     }
 
+    fun product(productId: String): Flowable<Product> {
+        // TODO: from local
+        return productCloud.product(productId)
+                .compose(Rx.flowableTransformer())
+    }
+
     fun products(): Flowable<List<Product>> {
         // TODO: from local
         return productCloud.products()

@@ -9,6 +9,7 @@ import java.math.BigDecimal
 @Entity(tableName = "products")
 data class Product(@PrimaryKey @ColumnInfo(name = "id") var id: String = "",
                    @ColumnInfo(name = "coverUrl") var coverUrl: String = "",
+                   @ColumnInfo(name = "description") var description: String = "",
                    @ColumnInfo(name = "price") var price: BigDecimal = BigDecimal.ZERO,
                    @ColumnInfo(name = "title") var title: String = "") {
 
@@ -16,9 +17,11 @@ data class Product(@PrimaryKey @ColumnInfo(name = "id") var id: String = "",
         fun from(product: Storefront.Product): Product {
             val imageEdges = product.images.edges
             val coverUrl = if (!imageEdges.isEmpty()) imageEdges[0].node.src else ""
+            val description = product.description
             val variantEdges = product.variants.edges
             val price = if (!variantEdges.isEmpty()) variantEdges[0].node.price else BigDecimal.ZERO
-            return Product(id = product.id.toString(), coverUrl = coverUrl, price = price, title = product.title)
+            return Product(id = product.id.toString(), coverUrl = coverUrl, description = description,
+                    price = price, title = product.title)
         }
     }
 }

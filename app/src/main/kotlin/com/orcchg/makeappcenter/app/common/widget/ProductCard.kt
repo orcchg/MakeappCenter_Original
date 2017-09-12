@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.annotation.StringRes
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -11,6 +12,8 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.widget.common.ImageHolder
+import com.orcchg.makeappcenter.app.navigation.OpenScreenEvent
+import com.orcchg.makeappcenter.app.navigation.Screen
 import com.orcchg.makeappcenter.data.eventbus.ProductAddToCartEvent
 import com.orcchg.makeappcenter.domain.model.Product
 import org.greenrobot.eventbus.EventBus
@@ -75,6 +78,14 @@ class ProductCard : LinearLayout {
                 EventBus.getDefault().post(ProductAddToCartEvent(product!!))
             }
         })
+
+        imageHolder.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                if (product != null) {
+                    EventBus.getDefault().post(OpenScreenEvent(Screen.PRODUCT_DETAILS, product!!))
+                }
+            }
+        })
     }
 
     /* API */
@@ -102,4 +113,7 @@ class ProductCard : LinearLayout {
     private fun setTitle(@StringRes textResId: Int) {
         title.setText(textResId)
     }
+
+    /* Listener */
+    // --------------------------------------------------------------------------------------------
 }

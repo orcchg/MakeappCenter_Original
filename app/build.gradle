@@ -152,6 +152,8 @@ android {
                     'src/main/res-screen/home',
                     'src/main/res-screen/location',
                     'src/main/res-screen/main',
+                    'src/main/res-screen/product',
+                    'src/main/res-screen/product/details',
                     'src/main/res-screen/profile',
                     'src/main/res-screen/splash',
             ]

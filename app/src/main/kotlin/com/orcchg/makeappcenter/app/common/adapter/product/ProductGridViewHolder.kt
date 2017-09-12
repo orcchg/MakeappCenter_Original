@@ -8,7 +8,8 @@ import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.widget.ProductCard
 import com.orcchg.makeappcenter.domain.model.Product
 
-class ProductGridViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ProductGridViewHolder(itemView: View)
+    : RecyclerView.ViewHolder(itemView) {
 
     @BindView(R.id.product_card) lateinit var product: ProductCard
 

@@ -11,14 +11,18 @@ import butterknife.ButterKnife
 import com.ncapdevi.fragnav.FragNavController
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.navigation.FragmentNavigationHandler
+import com.orcchg.makeappcenter.app.navigation.OpenScreenEvent
+import com.orcchg.makeappcenter.app.navigation.Screen
 import com.orcchg.makeappcenter.app.view.base.BaseActivity
 import com.orcchg.makeappcenter.app.view.cart.CartFragment
 import com.orcchg.makeappcenter.app.view.favorite.FavoriteListFragment
 import com.orcchg.makeappcenter.app.view.home.HomeFragment
 import com.orcchg.makeappcenter.app.view.location.LocationFragment
+import com.orcchg.makeappcenter.app.view.product.details.ProductDetailsFragment
 import com.orcchg.makeappcenter.app.view.profile.ProfileFragment
 import com.orcchg.makeappcenter.data.eventbus.ProductAddToCartEvent
 import com.orcchg.makeappcenter.data.viewmodel.product.CartViewModel
+import com.orcchg.makeappcenter.domain.model.Product
 import com.roughike.bottombar.BottomBar
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -136,6 +140,16 @@ class MainActivity : BaseActivity(), FragNavController.RootFragmentListener,
 
     /* Event Bus */
     // --------------------------------------------------------------------------------------------
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onOpenScreenEvent(event: OpenScreenEvent) {
+        when (event.screen) {
+            Screen.PRODUCT_DETAILS -> {
+                val product = event.payload as Product
+                pushFragment(ProductDetailsFragment.newInstance(product.id))
+            }
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onProductAddToCartEvent(event: ProductAddToCartEvent) {
         vm.cartSize().subscribe { bottomBar.getTabWithId(R.id.tab_cart).setBadgeCount(it) }

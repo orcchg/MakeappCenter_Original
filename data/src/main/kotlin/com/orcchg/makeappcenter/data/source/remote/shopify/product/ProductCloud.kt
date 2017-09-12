@@ -146,6 +146,56 @@ class ProductCloud @Inject constructor(private val apolloClient: ApolloClient,
     }
 
     // ------------------------------------------
+    fun product(productId: String): Flowable<Product> {
+        val query = Storefront.query {
+            it.node(ID(productId), {
+                it.onProduct {
+                    it.title()
+                        .description()
+                        .tags()
+                        .images(20, {
+                            it.edges {
+                                it.node {
+                                    it.src()
+                                }
+                            }
+                        })
+                        .options {
+                            it.name()
+                            it.values()
+                        }
+                        .variants(20, {
+                            it.edges {
+                                it.node {
+                                    it.title()
+                                        .availableForSale()
+                                        .selectedOptions {
+                                            it.name()
+                                            .value()
+                                        }
+                                        .price()
+                                }
+                            }
+                        })
+                }
+            })
+        }
+
+        return Flowable.create<Product>({ emitter ->
+            shopifyClient.queryGraph(query).enqueue(object : GraphCall.Callback<Storefront.QueryRoot> {
+                override fun onResponse(response: GraphResponse<Storefront.QueryRoot>) {
+                    val product = response.data()?.node as Storefront.Product
+                    emitter.onNext(Product.from(product))
+                    emitter.onComplete()
+                }
+
+                override fun onFailure(error: GraphError) {
+                    emitter.onError(error)
+                }
+            })
+        }, BackpressureStrategy.BUFFER)
+    }
+
     fun products(): Flowable<List<Product>> {
         val query = Storefront.query {
             it.shop {
