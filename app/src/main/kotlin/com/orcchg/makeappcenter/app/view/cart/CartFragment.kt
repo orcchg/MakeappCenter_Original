@@ -63,8 +63,9 @@ class CartFragment : BaseFragment() {
                 .doFinally { showLoading(false) }
                 .subscribe {
                     adapter.items = it
-                    totalPrice.text = String.format("%s", it.map { it.price }
-                            .reduce { sum, item -> sum + item })
+                    totalPrice.text = if (it.isEmpty()) "0"
+                                      else String.format("%s", it.map { it.price }
+                                                    .reduce { sum, item -> sum + item })
                 }
     }
 
