@@ -2,6 +2,7 @@
     <string name="app_name">MakeAppCenter</string>
 
     <!-- Common -->
+    <string name="label_checkout">Checkout</string>
     <string name="label_in_cart">In Cart</string>
 
     <!-- Main -->

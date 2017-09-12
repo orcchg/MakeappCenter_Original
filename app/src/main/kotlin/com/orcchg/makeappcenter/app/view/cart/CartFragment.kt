@@ -7,8 +7,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.product.ProductsInCartAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
@@ -16,8 +18,14 @@ import com.orcchg.makeappcenter.data.viewmodel.product.CartViewModel
 
 class CartFragment : BaseFragment() {
 
-    @BindView(R.id.rv_products) lateinit var products: RecyclerView
     @BindView(R.id.progressbar) lateinit var progressbar: View
+    @BindView(R.id.rv_products) lateinit var products: RecyclerView
+    @BindView(R.id.tv_total_price) lateinit var totalPrice: TextView
+
+    @OnClick(R.id.btn_checkout)
+    internal fun onCheckoutClick() {
+        //
+    }
 
     companion object {
         fun newInstance(): CartFragment {
@@ -53,7 +61,11 @@ class CartFragment : BaseFragment() {
         vm.productsInCart()
                 .doOnSubscribe { showLoading(true) }
                 .doFinally { showLoading(false) }
-                .subscribe { adapter.items = it }
+                .subscribe {
+                    adapter.items = it
+                    totalPrice.text = String.format("%s", it.map { it.price }
+                            .reduce { sum, item -> sum + item })
+                }
     }
 
     /* View */
