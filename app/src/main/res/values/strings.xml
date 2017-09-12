@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MakeAppCenter</string>
 
+    <!-- Common -->
+    <string name="label_in_cart">In Cart</string>
+
     <!-- Main -->
     <string name="main_screen_title">Main</string>
 

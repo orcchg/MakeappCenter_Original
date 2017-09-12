@@ -2,21 +2,37 @@ package com.orcchg.makeappcenter.data.repository
 
 import io.reactivex.Flowable
 import io.reactivex.FlowableTransformer
+import io.reactivex.Maybe
+import io.reactivex.MaybeTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 
-object RepositoryUtility {
+object Rx {
 
-    fun <T> applySchedulers(): FlowableTransformer<T, T> {
+    fun <T> flowableTransformer(): FlowableTransformer<T, T> {
+        return FlowableTransformer { observable ->
+            observable.compose(analyzeNetworkError()).compose(applySchedulers())
+        }
+    }
+
+    fun <T> maybeTransformer(): MaybeTransformer<T, T> {
+        return MaybeTransformer { observable ->
+            observable.compose(analyzeNetworkErrorMaybe()).compose(applySchedulersMaybe())
+        }
+    }
+
+    /* Internal */
+    // --------------------------------------------------------------------------------------------
+    private fun <T> applySchedulers(): FlowableTransformer<T, T> {
         return FlowableTransformer {
             it.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
     }
 
-    fun <T> mainTransformer(): FlowableTransformer<T, T> {
-        return FlowableTransformer { observable ->
-            observable.compose(analyzeNetworkError()).compose(applySchedulers())
+    private fun <T> applySchedulersMaybe(): MaybeTransformer<T, T> {
+        return MaybeTransformer {
+            it.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
     }
 
@@ -35,4 +51,12 @@ object RepositoryUtility {
 //                }
             }
         }
+
+    private fun <T> analyzeNetworkErrorMaybe(): MaybeTransformer<T, T> {
+        return MaybeTransformer { observable ->
+            observable.onErrorResumeNext(Function {
+                Maybe.error(it)
+            })
+        }
+    }
 }

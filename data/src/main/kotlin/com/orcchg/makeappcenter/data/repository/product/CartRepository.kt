@@ -2,7 +2,7 @@ package com.orcchg.makeappcenter.data.repository.product
 
 import com.orcchg.makeappcenter.data.eventbus.ProductAddToCartEvent
 import com.orcchg.makeappcenter.data.repository.Repository
-import com.orcchg.makeappcenter.data.repository.RepositoryUtility
+import com.orcchg.makeappcenter.data.repository.Rx
 import com.orcchg.makeappcenter.data.source.local.product.CartDao
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -19,10 +19,10 @@ class CartRepository @Inject constructor(private val cartDao: CartDao)
         EventBus.getDefault().register(this)
     }
 
-    fun cartSize() = cartDao.cartSize().compose(RepositoryUtility.mainTransformer())
+    fun cartSize() = cartDao.cartSize().compose(Rx.flowableTransformer())
 
     fun productsInCart() = cartDao.productsInCart()
-            .compose(RepositoryUtility.mainTransformer())
+            .compose(Rx.maybeTransformer())
 
     /* Event Bus */
     // --------------------------------------------------------------------------------------------

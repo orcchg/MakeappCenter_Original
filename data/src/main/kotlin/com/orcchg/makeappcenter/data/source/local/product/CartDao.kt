@@ -6,6 +6,7 @@ import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.orcchg.makeappcenter.domain.model.Product
 import io.reactivex.Flowable
+import io.reactivex.Maybe
 
 @Dao
 interface CartDao {
@@ -17,5 +18,5 @@ interface CartDao {
     fun cartSize(): Flowable<Int>
 
     @Query("SELECT * FROM products")
-    fun productsInCart(): Flowable<List<Product>>
+    fun productsInCart(): Maybe<List<Product>>
 }
