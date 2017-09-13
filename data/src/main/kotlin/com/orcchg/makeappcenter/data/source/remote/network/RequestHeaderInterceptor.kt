@@ -10,7 +10,7 @@ class RequestHeaderInterceptor(private val accessToken: String) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request().newBuilder()
-                .header("Authorization", "Bearer $accessToken")
+                .header("X-Shopify-Access-Token", accessToken)
                 .build()
         return chain.proceed(request)
     }

@@ -11,11 +11,13 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
+import com.orcchg.makeappcenter.app.common.coordinator.ProductCardCoordinator
 import com.orcchg.makeappcenter.app.common.widget.common.ImageHolder
 import com.orcchg.makeappcenter.app.navigation.OpenScreenEvent
 import com.orcchg.makeappcenter.app.navigation.Screen
 import com.orcchg.makeappcenter.data.eventbus.ProductAddToCartEvent
 import com.orcchg.makeappcenter.domain.model.Product
+import com.squareup.coordinators.Coordinators
 import org.greenrobot.eventbus.EventBus
 import java.math.BigDecimal
 import java.text.NumberFormat
@@ -86,6 +88,8 @@ class ProductCard : LinearLayout {
                 }
             }
         })
+
+        Coordinators.bind(this, { ProductCardCoordinator() })
     }
 
     /* API */

@@ -3,7 +3,7 @@ package com.orcchg.makeappcenter.app.view.splash
 import android.os.Bundle
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.view.base.BaseActivity
-import rx.Observable
+import io.reactivex.Flowable
 import java.util.concurrent.TimeUnit
 
 class SplashActivity : BaseActivity() {
@@ -22,9 +22,9 @@ class SplashActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         // wait a bit and then proceed to the next screen
-        Observable.just(10)
+        Flowable.just(10)
                 .delay(SPLASH_DELAY, TimeUnit.MILLISECONDS)
-                .doOnCompleted(this::afterSplash)
+                .doFinally(this::afterSplash)
                 .subscribe()
     }
 

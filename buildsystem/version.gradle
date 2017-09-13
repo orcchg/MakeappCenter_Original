@@ -33,6 +33,7 @@ buildscript {
         circleImageViewVersion = '1.3.0'
         circleLoadingViewVersion = '1.1.5@aar'
         constraintLayoutVersion = '1.0.2'
+        coordinatorsVersion = '0.3'
         crashlyticsVersion = '2.6.8@aar'
         crashlyticsNdkVersion = '1.1.6@aar'
         daggerVersion = '2.7'

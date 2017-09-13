@@ -50,6 +50,7 @@ ext {
             autoValueParcel:      "frankiesardo:auto-parcel:${autoValueParcelVersion}",
             butterKnife:          "com.jakewharton:butterknife:${butterKnifeVersion}",
             butterKnifeCompiler:  "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            coordinators:         "com.squareup.coordinators:coordinators:${coordinatorsVersion}",
             crashlytics:          "com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}",
             crashlyticsNdk:       "com.crashlytics.sdk.android:crashlytics-ndk:${crashlyticsNdkVersion}",
             dagger:               "com.google.dagger:dagger:${daggerVersion}",
@@ -79,7 +80,7 @@ ext {
             openCSV:              "net.sf.opencsv:opencsv:${openCSVversion}",
             retrofit:             "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             retrofitConvertGson:  "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
-            retrofitAdapterRx:    "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}",
+            retrofitAdapterRx:    "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
             rxAndroid:            "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
             rxApollo:             "com.apollographql.apollo:apollo-rx2-support:${apolloVersion}",
             rxJava:               "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
@@ -370,6 +371,7 @@ ext {
     /* App */
     // ------------------------------------------
     appDependencies = [
+            [configuration: "compile", dependency: d_libs.coordinators],
             [configuration: "compile", dependency: d_libs.glide],
 //            [configuration: "compile", dependency: d_libs.multidex],
             [configuration: "compile", dependency: d_libs.systembarTint],

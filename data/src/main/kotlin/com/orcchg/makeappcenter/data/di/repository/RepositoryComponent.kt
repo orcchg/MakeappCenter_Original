@@ -4,6 +4,7 @@ import com.orcchg.makeappcenter.data.di.viewmodel.ViewModelComponent
 import com.orcchg.makeappcenter.data.di.viewmodel.ViewModelModule
 import com.orcchg.makeappcenter.data.repository.product.CartRepository
 import com.orcchg.makeappcenter.data.repository.product.ProductRepository
+import com.orcchg.makeappcenter.data.repository.redirect.RedirectRepository
 import dagger.Component
 import javax.inject.Singleton
 
@@ -15,4 +16,5 @@ interface RepositoryComponent {
 
     fun cartRepository(): CartRepository
     fun productRepository(): ProductRepository
+    fun redirectRepository(): RedirectRepository
 }

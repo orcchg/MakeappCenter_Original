@@ -13,6 +13,7 @@ import com.orcchg.makeappcenter.data.R
 import com.orcchg.makeappcenter.data.graphql.type.CustomType
 import com.orcchg.makeappcenter.data.source.remote.network.RequestHeaderInterceptor
 import com.orcchg.makeappcenter.data.source.remote.network.ResponseErrorInterceptor
+import com.orcchg.makeappcenter.data.source.remote.shopify.api.AdminRestAdapter
 import com.shopify.buy3.GraphClient
 import dagger.Module
 import dagger.Provides
@@ -20,7 +21,7 @@ import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.internal.platform.Platform
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
@@ -69,8 +70,8 @@ class CloudModule(private val context: Context) {
 
     @Provides @Singleton
     internal fun provideRequestHeaderInterceptor(): RequestHeaderInterceptor {
-        val guestToken = context.getString(R.string.guest_token)
-        return RequestHeaderInterceptor(guestToken)
+        val accessToken = context.getString(R.string.shopify_api_key)  // TODO: distinguish public APIs
+        return RequestHeaderInterceptor(accessToken)
     }
 
     @Provides @Singleton
@@ -87,7 +88,7 @@ class CloudModule(private val context: Context) {
                                      logInterceptor: LoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
 //                .addInterceptor(errorInterceptor)
-//                .addInterceptor(headerInterceptor)
+                .addInterceptor(headerInterceptor)
                 .addInterceptor(logInterceptor)  // logging interceptor must be initialized last to log properly
                 .readTimeout(30, TimeUnit.SECONDS)
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -100,7 +101,7 @@ class CloudModule(private val context: Context) {
     internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit.Builder {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
     }
 
@@ -115,5 +116,12 @@ class CloudModule(private val context: Context) {
                 .shopDomain(shopDomain)
                 .httpClient(okHttpClient)
                 .build()
+    }
+
+    // TODO: move to separate module / component
+    @Provides @Singleton
+    internal fun provideAdminRestAdapter(retrofit: Retrofit.Builder): AdminRestAdapter {
+        return retrofit.baseUrl(AdminRestAdapter.ENDPOINT).build()
+                .create(AdminRestAdapter::class.java)
     }
 }
