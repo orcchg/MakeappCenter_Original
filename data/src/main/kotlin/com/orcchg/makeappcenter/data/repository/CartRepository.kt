@@ -1,8 +1,6 @@
-package com.orcchg.makeappcenter.data.repository.product
+package com.orcchg.makeappcenter.data.repository
 
 import com.orcchg.makeappcenter.data.eventbus.ProductAddToCartEvent
-import com.orcchg.makeappcenter.data.repository.Repository
-import com.orcchg.makeappcenter.data.repository.Rx
 import com.orcchg.makeappcenter.data.source.local.product.CartDao
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

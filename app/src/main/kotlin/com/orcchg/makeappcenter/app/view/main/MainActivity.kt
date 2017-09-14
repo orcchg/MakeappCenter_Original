@@ -21,7 +21,7 @@ import com.orcchg.makeappcenter.app.view.location.LocationFragment
 import com.orcchg.makeappcenter.app.view.product.details.ProductDetailsFragment
 import com.orcchg.makeappcenter.app.view.profile.ProfileFragment
 import com.orcchg.makeappcenter.data.eventbus.ProductAddToCartEvent
-import com.orcchg.makeappcenter.data.viewmodel.product.CartViewModel
+import com.orcchg.makeappcenter.data.viewmodel.CartViewModel
 import com.orcchg.makeappcenter.domain.model.Product
 import com.roughike.bottombar.BottomBar
 import org.greenrobot.eventbus.EventBus

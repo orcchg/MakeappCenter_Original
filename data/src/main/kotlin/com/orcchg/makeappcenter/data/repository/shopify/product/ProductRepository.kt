@@ -1,4 +1,4 @@
-package com.orcchg.makeappcenter.data.repository.product
+package com.orcchg.makeappcenter.data.repository.shopify.product
 
 import com.orcchg.makeappcenter.data.repository.Repository
 import com.orcchg.makeappcenter.data.repository.Rx

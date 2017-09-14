@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
-import com.orcchg.makeappcenter.data.viewmodel.redirect.RedirectViewModel
+import com.orcchg.makeappcenter.data.viewmodel.shopify.redirect.RedirectViewModel
+import com.orcchg.makeappcenter.data.viewmodel.shopify.webpage.WebPageViewModel
 import timber.log.Timber
 
 class ProfileFragment : BaseFragment() {
@@ -19,13 +20,15 @@ class ProfileFragment : BaseFragment() {
         }
     }
 
-    private lateinit var vm: RedirectViewModel
+    private lateinit var redirectVm: RedirectViewModel
+    private lateinit var webPageVm: WebPageViewModel
 
     /* Lifecycle */
     // --------------------------------------------------------------------------------------------
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        vm = ViewModelProviders.of(this, viewModelComponent.redirectFactory()).get(RedirectViewModel::class.java)
+        redirectVm = ViewModelProviders.of(this, viewModelComponent.redirectFactory()).get(RedirectViewModel::class.java)
+        webPageVm = ViewModelProviders.of(this, viewModelComponent.webPageFactory()).get(WebPageViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,6 +40,7 @@ class ProfileFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        vm.redirects().subscribe { Timber.v("REDIRECT: $it") }
+        redirectVm.redirects().subscribe { Timber.v("REDIRECT: $it") }
+        webPageVm.pages().subscribe { Timber.v("WEB PAGE: $it") }
     }
 }

@@ -1,7 +1,7 @@
-package com.orcchg.makeappcenter.data.viewmodel.product
+package com.orcchg.makeappcenter.data.viewmodel.shopify.product
 
 import android.arch.lifecycle.ViewModel
-import com.orcchg.makeappcenter.data.repository.product.ProductRepository
+import com.orcchg.makeappcenter.data.repository.shopify.product.ProductRepository
 
 class ProductViewModel(private val repository: ProductRepository) : ViewModel() {
 

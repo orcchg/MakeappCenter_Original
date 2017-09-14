@@ -1,4 +1,4 @@
-package com.orcchg.makeappcenter.data.repository.redirect
+package com.orcchg.makeappcenter.data.repository.shopify.redirect
 
 import com.orcchg.makeappcenter.data.repository.Repository
 import com.orcchg.makeappcenter.data.source.remote.shopify.redirect.RedirectCloud

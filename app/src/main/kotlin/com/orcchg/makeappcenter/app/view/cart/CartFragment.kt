@@ -14,7 +14,7 @@ import butterknife.OnClick
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.product.ProductsInCartAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
-import com.orcchg.makeappcenter.data.viewmodel.product.CartViewModel
+import com.orcchg.makeappcenter.data.viewmodel.CartViewModel
 
 class CartFragment : BaseFragment() {
 

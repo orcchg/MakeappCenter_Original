@@ -12,7 +12,7 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
-import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
+import com.orcchg.makeappcenter.data.viewmodel.shopify.product.ProductViewModel
 
 class ProductDetailsFragment : BaseFragment() {
 

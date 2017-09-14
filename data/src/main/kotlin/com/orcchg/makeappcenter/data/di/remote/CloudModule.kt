@@ -74,13 +74,7 @@ class CloudModule(private val context: Context) {
         val privateAppApiKey = context.resources.getString(R.string.shopify_api_key_private_app)
         val privateAppPassword = context.resources.getString(R.string.shopify_password_private_app)
         val accessToken = "$privateAppApiKey:$privateAppPassword"
-        // TODO
-        /**
-         * Process: com.orcchg.makeappcenter, PID: 4611
-        java.lang.IllegalArgumentException: Unexpected char 0x0a at 82 in Authorization value: Basic Yzc1ZTJiYzU0M2FjNWFiNGI5ZWJjNmUzYjJmYjFjOGQ6YzAyZjczNGQ2ZWQ1OGMzZDdlOWY0MjNl
-        OGVkNTgxZjI=
-         */
-        val base64 = Base64.encodeToString(accessToken.toByteArray(), 0)
+        val base64 = Base64.encodeToString(accessToken.toByteArray(), Base64.NO_WRAP)
         return RequestHeaderInterceptor(base64)
     }
 

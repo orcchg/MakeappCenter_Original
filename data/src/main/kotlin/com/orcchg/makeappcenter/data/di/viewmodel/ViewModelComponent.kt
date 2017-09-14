@@ -1,8 +1,9 @@
 package com.orcchg.makeappcenter.data.di.viewmodel
 
-import com.orcchg.makeappcenter.data.viewmodel.product.CartViewModelFactory
-import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModelFactory
-import com.orcchg.makeappcenter.data.viewmodel.redirect.RedirectViewModelFactory
+import com.orcchg.makeappcenter.data.viewmodel.CartViewModelFactory
+import com.orcchg.makeappcenter.data.viewmodel.shopify.product.ProductViewModelFactory
+import com.orcchg.makeappcenter.data.viewmodel.shopify.redirect.RedirectViewModelFactory
+import com.orcchg.makeappcenter.data.viewmodel.shopify.webpage.WebPageViewModelFactory
 import dagger.Subcomponent
 import javax.inject.Singleton
 
@@ -21,4 +22,8 @@ interface ViewModelComponent {
     /* Redirect */
     // --------------------------------------------------------------------------------------------
     fun redirectFactory(): RedirectViewModelFactory
+
+    /* Web Page */
+    // --------------------------------------------------------------------------------------------
+    fun webPageFactory(): WebPageViewModelFactory
 }

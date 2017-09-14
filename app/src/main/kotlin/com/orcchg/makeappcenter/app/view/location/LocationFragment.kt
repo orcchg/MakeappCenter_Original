@@ -12,7 +12,7 @@ import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.product.ProductsGridAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
-import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
+import com.orcchg.makeappcenter.data.viewmodel.shopify.product.ProductViewModel
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 class LocationFragment : BaseFragment() {

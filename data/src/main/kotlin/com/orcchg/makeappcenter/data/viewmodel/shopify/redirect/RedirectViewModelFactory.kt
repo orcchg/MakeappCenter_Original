@@ -1,8 +1,8 @@
-package com.orcchg.makeappcenter.data.viewmodel.redirect
+package com.orcchg.makeappcenter.data.viewmodel.shopify.redirect
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.orcchg.makeappcenter.data.repository.redirect.RedirectRepository
+import com.orcchg.makeappcenter.data.repository.shopify.redirect.RedirectRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

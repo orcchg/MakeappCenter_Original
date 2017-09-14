@@ -12,7 +12,7 @@ import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.collection.ProductCollectionsListAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
-import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
+import com.orcchg.makeappcenter.data.viewmodel.shopify.product.ProductViewModel
 
 class HomeFragment : BaseFragment() {
 

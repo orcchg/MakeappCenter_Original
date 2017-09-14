@@ -15,7 +15,7 @@ import com.orcchg.makeappcenter.app.common.adapter.collection.CollectionsListAda
 import com.orcchg.makeappcenter.app.navigation.FragmentNavigationHandler
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.app.view.collection.details.CollectionDetailsFragment
-import com.orcchg.makeappcenter.data.viewmodel.product.ProductViewModel
+import com.orcchg.makeappcenter.data.viewmodel.shopify.product.ProductViewModel
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper
 
 class FavoriteListFragment : BaseFragment() {
