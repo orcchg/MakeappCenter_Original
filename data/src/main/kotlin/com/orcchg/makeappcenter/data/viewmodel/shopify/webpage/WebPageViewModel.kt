@@ -5,5 +5,6 @@ import com.orcchg.makeappcenter.data.repository.shopify.webpage.WebPageRepositor
 
 class WebPageViewModel(private val repository: WebPageRepository) : ViewModel() {
 
+    fun page(id: Long) = repository.page(id)
     fun pages() = repository.pages()
 }

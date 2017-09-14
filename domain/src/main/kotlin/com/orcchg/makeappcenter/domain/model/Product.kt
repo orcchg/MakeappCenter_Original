@@ -1,17 +1,13 @@
 package com.orcchg.makeappcenter.domain.model
 
-import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.shopify.buy3.Storefront
 import java.math.BigDecimal
 
 @Entity(tableName = "products")
-data class Product(@PrimaryKey @ColumnInfo(name = "id") var id: String = "",
-                   @ColumnInfo(name = "coverUrl") var coverUrl: String = "",
-                   @ColumnInfo(name = "description") var description: String = "",
-                   @ColumnInfo(name = "price") var price: BigDecimal = BigDecimal.ZERO,
-                   @ColumnInfo(name = "title") var title: String = "") {
+data class Product(@PrimaryKey var id: String = "", var coverUrl: String = "", var description: String = "",
+                   var price: BigDecimal = BigDecimal.ZERO, var title: String = "") {
 
     companion object {
         fun from(product: Storefront.Product): Product {

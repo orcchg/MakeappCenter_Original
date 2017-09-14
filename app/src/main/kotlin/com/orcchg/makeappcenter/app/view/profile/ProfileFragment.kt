@@ -2,9 +2,12 @@ package com.orcchg.makeappcenter.app.view.profile
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import butterknife.BindView
 import butterknife.ButterKnife
 import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
@@ -13,6 +16,8 @@ import com.orcchg.makeappcenter.data.viewmodel.shopify.webpage.WebPageViewModel
 import timber.log.Timber
 
 class ProfileFragment : BaseFragment() {
+
+    @BindView(R.id.tv_webpage) lateinit var webPageText: TextView
 
     companion object {
         fun newInstance(): ProfileFragment {
@@ -41,6 +46,12 @@ class ProfileFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         redirectVm.redirects().subscribe { Timber.v("REDIRECT: $it") }
-        webPageVm.pages().subscribe { Timber.v("WEB PAGE: $it") }
+//        webPageVm.pages().subscribe { Timber.v("WEB PAGE: $it") }
+
+        // TODO: show specific page - CONTACT US, id = 212484358
+        webPageVm.page(212484358L).subscribe {
+            Timber.v("WEB PAGE: $it")
+            webPageText.text = Html.fromHtml(it.body_html)
+        }
     }
 }

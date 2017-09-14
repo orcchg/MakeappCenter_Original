@@ -1,6 +1,7 @@
 package com.orcchg.makeappcenter.data.repository.shopify.redirect
 
 import com.orcchg.makeappcenter.data.repository.Repository
+import com.orcchg.makeappcenter.data.repository.Rx
 import com.orcchg.makeappcenter.data.source.remote.shopify.redirect.RedirectCloud
 import com.orcchg.makeappcenter.domain.model.Redirect
 import io.reactivex.Flowable
@@ -13,5 +14,6 @@ class RedirectRepository @Inject constructor(private val redirectCloud: Redirect
     fun redirects(): Flowable<Redirect> {
         // TODO: from local
         return redirectCloud.redirects().flatMapIterable { it.redirects }
+                .compose(Rx.flowableTransformer())
     }
 }
