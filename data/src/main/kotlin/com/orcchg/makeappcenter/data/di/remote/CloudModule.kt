@@ -28,12 +28,12 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class CloudModule(private val context: Context) {
+class CloudModule(protected val context: Context) {
 
     /* Common */
     // --------------------------------------------------------------------------------------------
     @Provides @Singleton
-    internal fun provideGson(): Gson {
+    fun provideGson(): Gson {
         return GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 .create()
@@ -58,7 +58,7 @@ class CloudModule(private val context: Context) {
     /* OkHttp */
     // --------------------------------------------------------------------------------------------
     @Provides @Singleton
-    internal fun provideHttpLoggingInterceptor(): LoggingInterceptor =
+    fun provideHttpLoggingInterceptor(): LoggingInterceptor =
         LoggingInterceptor.Builder()
                 .loggable(BuildConfig.DEBUG)
                 .setLevel(Level.BASIC)
@@ -69,13 +69,13 @@ class CloudModule(private val context: Context) {
                 .build()
 
     @Provides @Singleton
-    internal fun provideRequestHeaderInterceptor(): RequestHeaderInterceptor {
-        val accessToken = context.getString(R.string.shopify_api_key)  // TODO: distinguish public APIs
+    fun provideRequestHeaderInterceptor(): RequestHeaderInterceptor {
+        val accessToken = ""  // TODO: get Oauth access token
         return RequestHeaderInterceptor(accessToken)
     }
 
     @Provides @Singleton
-    internal fun provideResponseErrorInterceptor(): ResponseErrorInterceptor {
+    fun provideResponseErrorInterceptor(): ResponseErrorInterceptor {
         return ResponseErrorInterceptor()
     }
 
@@ -83,11 +83,11 @@ class CloudModule(private val context: Context) {
      * @see https://futurestud.io/tutorials/retrofit-2-manage-request-headers-in-okhttp-interceptor
      */
     @Provides @Singleton
-    internal fun provideOkHttpClient(errorInterceptor: ResponseErrorInterceptor,
+    fun provideOkHttpClient(errorInterceptor: ResponseErrorInterceptor,
                                      headerInterceptor: RequestHeaderInterceptor,
                                      logInterceptor: LoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-//                .addInterceptor(errorInterceptor)
+                .addInterceptor(errorInterceptor)
                 .addInterceptor(headerInterceptor)
                 .addInterceptor(logInterceptor)  // logging interceptor must be initialized last to log properly
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -95,17 +95,23 @@ class CloudModule(private val context: Context) {
                 .build()
     }
 
-    /* Retrofit */
+    /* REST api */
     // --------------------------------------------------------------------------------------------
     @Provides @Singleton
-    internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit.Builder {
+    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit.Builder {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
     }
 
-    /* Shopify */
+    @Provides @Singleton
+    fun provideAdminRestAdapter(retrofit: Retrofit.Builder): AdminRestAdapter {
+        return retrofit.baseUrl(AdminRestAdapter.ENDPOINT).build()
+                .create(AdminRestAdapter::class.java)
+    }
+
+    /* Graph QL */
     // --------------------------------------------------------------------------------------------
     @Provides @Singleton
     fun provideShopifyGraphClient(okHttpClient: OkHttpClient): GraphClient {
@@ -116,12 +122,5 @@ class CloudModule(private val context: Context) {
                 .shopDomain(shopDomain)
                 .httpClient(okHttpClient)
                 .build()
-    }
-
-    // TODO: move to separate module / component
-    @Provides @Singleton
-    internal fun provideAdminRestAdapter(retrofit: Retrofit.Builder): AdminRestAdapter {
-        return retrofit.baseUrl(AdminRestAdapter.ENDPOINT).build()
-                .create(AdminRestAdapter::class.java)
     }
 }
