@@ -2,6 +2,11 @@
     <string name="app_name">Data</string>
     <string name="guest_token"></string>
 
+    <string name="shopify_access_token_online_store">f5c524bc9ba73be487b9df871d3be6e4</string>
+    <string name="shopify_access_token_private_app">61a7c62381464a82ec4c58e06e3e806f</string>
+    <string name="shopify_api_key_private_app">c75e2bc543ac5ab4b9ebc6e3b2fb1c8d</string>
+    <string name="shopify_password_private_app">c02f734d6ed58c3d7e9f423e8ed581f2</string>
+
     <string name="shopify_api_key">c0f4b7e3e060a074ef1e5ad861adf69f</string>
     <string name="shopify_domain">food-for-space.myshopify.com</string>
 </resources>

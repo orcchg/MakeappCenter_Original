@@ -1,6 +1,7 @@
 package com.orcchg.makeappcenter.data.di.remote
 
 import android.content.Context
+import android.util.Base64
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.CustomTypeAdapter
 import com.apollographql.apollo.cache.http.DiskLruHttpCacheStore
@@ -28,7 +29,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class CloudModule(protected val context: Context) {
+class CloudModule(private val context: Context) {
 
     /* Common */
     // --------------------------------------------------------------------------------------------
@@ -70,8 +71,17 @@ class CloudModule(protected val context: Context) {
 
     @Provides @Singleton
     fun provideRequestHeaderInterceptor(): RequestHeaderInterceptor {
-        val accessToken = ""  // TODO: get Oauth access token
-        return RequestHeaderInterceptor(accessToken)
+        val privateAppApiKey = context.resources.getString(R.string.shopify_api_key_private_app)
+        val privateAppPassword = context.resources.getString(R.string.shopify_password_private_app)
+        val accessToken = "$privateAppApiKey:$privateAppPassword"
+        // TODO
+        /**
+         * Process: com.orcchg.makeappcenter, PID: 4611
+        java.lang.IllegalArgumentException: Unexpected char 0x0a at 82 in Authorization value: Basic Yzc1ZTJiYzU0M2FjNWFiNGI5ZWJjNmUzYjJmYjFjOGQ6YzAyZjczNGQ2ZWQ1OGMzZDdlOWY0MjNl
+        OGVkNTgxZjI=
+         */
+        val base64 = Base64.encodeToString(accessToken.toByteArray(), 0)
+        return RequestHeaderInterceptor(base64)
     }
 
     @Provides @Singleton
@@ -79,13 +89,10 @@ class CloudModule(protected val context: Context) {
         return ResponseErrorInterceptor()
     }
 
-    /**
-     * @see https://futurestud.io/tutorials/retrofit-2-manage-request-headers-in-okhttp-interceptor
-     */
     @Provides @Singleton
     fun provideOkHttpClient(errorInterceptor: ResponseErrorInterceptor,
-                                     headerInterceptor: RequestHeaderInterceptor,
-                                     logInterceptor: LoggingInterceptor): OkHttpClient {
+                            headerInterceptor: RequestHeaderInterceptor,
+                            logInterceptor: LoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(errorInterceptor)
                 .addInterceptor(headerInterceptor)
