@@ -15,6 +15,8 @@ import com.orcchg.makeappcenter.app.R
 import com.orcchg.makeappcenter.app.common.adapter.product.ProductsInCartAdapter
 import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.data.viewmodel.CartViewModel
+import com.orcchg.makeappcenter.data.viewmodel.shopify.checkout.CheckoutViewModel
+import com.orcchg.makeappcenter.domain.model.Product
 
 class CartFragment : BaseFragment() {
 
@@ -24,7 +26,8 @@ class CartFragment : BaseFragment() {
 
     @OnClick(R.id.btn_checkout)
     internal fun onCheckoutClick() {
-        //
+        // TODO: handle results
+        checkoutVm.createCheckout(productsInCart).subscribe()
     }
 
     companion object {
@@ -33,15 +36,20 @@ class CartFragment : BaseFragment() {
         }
     }
 
-    private lateinit var vm: CartViewModel
+    private lateinit var cartVm: CartViewModel
+    private lateinit var checkoutVm: CheckoutViewModel
 
     private lateinit var adapter: ProductsInCartAdapter
+
+    // TODO: move to coordinator?
+    private lateinit var productsInCart: Collection<Product>
 
     /* Lifecycle */
     // --------------------------------------------------------------------------------------------
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        vm = ViewModelProviders.of(this, viewModelComponent.cartFactory()).get(CartViewModel::class.java)
+        cartVm = ViewModelProviders.of(this, viewModelComponent.cartFactory()).get(CartViewModel::class.java)
+        checkoutVm = ViewModelProviders.of(this, viewModelComponent.checkoutFactory()).get(CheckoutViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,10 +66,11 @@ class CartFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        vm.productsInCart()
+        cartVm.productsInCart()
                 .doOnSubscribe { showLoading(true) }
                 .doFinally { showLoading(false) }
                 .subscribe {
+                    productsInCart = it
                     adapter.items = it
                     totalPrice.text = if (it.isEmpty()) "0"
                                       else String.format("%s", it.map { it.price }

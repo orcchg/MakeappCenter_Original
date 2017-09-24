@@ -2,7 +2,7 @@ package com.orcchg.makeappcenter.data.repository.shopify.product
 
 import com.orcchg.makeappcenter.data.repository.Repository
 import com.orcchg.makeappcenter.data.repository.Rx
-import com.orcchg.makeappcenter.data.source.local.product.ProductDao
+import com.orcchg.makeappcenter.data.source.local.shopify.product.ProductDao
 import com.orcchg.makeappcenter.data.source.remote.shopify.product.ProductCloud
 import com.orcchg.makeappcenter.domain.model.Product
 import com.orcchg.makeappcenter.domain.model.ProductCollection

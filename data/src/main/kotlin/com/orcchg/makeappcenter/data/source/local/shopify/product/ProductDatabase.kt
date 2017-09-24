@@ -1,4 +1,4 @@
-package com.orcchg.makeappcenter.data.source.local.product
+package com.orcchg.makeappcenter.data.source.local.shopify.product
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
@@ -8,7 +8,7 @@ import com.orcchg.makeappcenter.domain.util.Converters
 
 @Database(entities = arrayOf(Product::class), version = 1)
 @TypeConverters(value = Converters::class)
-abstract class CartDatabase : RoomDatabase() {
+abstract class ProductDatabase : RoomDatabase() {
 
-    abstract fun cartDao(): CartDao
+    abstract fun productDao(): ProductDao
 }

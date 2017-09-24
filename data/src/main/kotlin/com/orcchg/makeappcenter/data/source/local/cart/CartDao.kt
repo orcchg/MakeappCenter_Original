@@ -1,4 +1,4 @@
-package com.orcchg.makeappcenter.data.source.local.product
+package com.orcchg.makeappcenter.data.source.local.cart
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
