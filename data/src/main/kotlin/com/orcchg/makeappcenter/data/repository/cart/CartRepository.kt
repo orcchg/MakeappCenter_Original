@@ -4,6 +4,7 @@ import com.orcchg.makeappcenter.data.eventbus.ProductAddToCartEvent
 import com.orcchg.makeappcenter.data.repository.Repository
 import com.orcchg.makeappcenter.data.repository.Rx
 import com.orcchg.makeappcenter.data.source.local.cart.CartDao
+import io.reactivex.Completable
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -20,6 +21,9 @@ class CartRepository @Inject constructor(private val cartDao: CartDao)
     }
 
     fun cartSize() = cartDao.cartSize().compose(Rx.flowableTransformer())
+
+    fun clearCart() = Completable.create { cartDao.clearCart() }
+            .compose(Rx.completableTransformer())
 
     fun productsInCart() = cartDao.productsInCart()
             .compose(Rx.maybeTransformer())

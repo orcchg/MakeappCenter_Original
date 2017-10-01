@@ -3,6 +3,7 @@
 
     <!-- Common -->
     <string name="label_checkout">Checkout</string>
+    <string name="label_clear">Clear</string>
     <string name="label_in_cart">In Cart</string>
 
     <!-- Main -->

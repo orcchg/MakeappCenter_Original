@@ -1,14 +1,17 @@
 package com.orcchg.makeappcenter.data.repository
 
-import io.reactivex.Flowable
-import io.reactivex.FlowableTransformer
-import io.reactivex.Maybe
-import io.reactivex.MaybeTransformer
+import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Function
 import io.reactivex.schedulers.Schedulers
 
 object Rx {
+
+    fun completableTransformer(): CompletableTransformer {
+        return CompletableTransformer { observable ->
+            observable.compose(analyzeNetworkErrorCompletable()).compose(applySchedulersCompletable())
+        }
+    }
 
     fun <T> flowableTransformer(): FlowableTransformer<T, T> {
         return FlowableTransformer { observable ->
@@ -24,6 +27,12 @@ object Rx {
 
     /* Internal */
     // --------------------------------------------------------------------------------------------
+    private fun applySchedulersCompletable(): CompletableTransformer {
+        return CompletableTransformer {
+            it.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+    }
+
     private fun <T> applySchedulers(): FlowableTransformer<T, T> {
         return FlowableTransformer {
             it.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -33,6 +42,13 @@ object Rx {
     private fun <T> applySchedulersMaybe(): MaybeTransformer<T, T> {
         return MaybeTransformer {
             it.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+    }
+
+    // ------------------------------------------
+    private fun analyzeNetworkErrorCompletable(): CompletableTransformer {
+        return CompletableTransformer { observable ->
+            observable.onErrorResumeNext({ Completable.error(it) })
         }
     }
 

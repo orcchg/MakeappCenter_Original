@@ -8,7 +8,7 @@ import com.orcchg.makeappcenter.domain.model.Product
 
 class ProductsInCartAdapter : RecyclerView.Adapter<ProductInCartViewHolder>() {
 
-    var items: List<Product> = ArrayList()
+    var items: MutableList<Product> = ArrayList()
         set(l) {
             field = l
             notifyDataSetChanged()
@@ -25,5 +25,12 @@ class ProductsInCartAdapter : RecyclerView.Adapter<ProductInCartViewHolder>() {
 
     override fun onBindViewHolder(holder: ProductInCartViewHolder, position: Int) {
         holder.bind(items[position])
+    }
+
+    /* API */
+    // --------------------------------------------------------------------------------------------
+    fun clear() {
+        items.clear()
+        notifyDataSetChanged()
     }
 }

@@ -17,6 +17,7 @@ import com.orcchg.makeappcenter.app.view.base.BaseFragment
 import com.orcchg.makeappcenter.data.viewmodel.CartViewModel
 import com.orcchg.makeappcenter.data.viewmodel.shopify.checkout.CheckoutViewModel
 import com.orcchg.makeappcenter.domain.model.Product
+import timber.log.Timber
 
 class CartFragment : BaseFragment() {
 
@@ -27,7 +28,15 @@ class CartFragment : BaseFragment() {
     @OnClick(R.id.btn_checkout)
     internal fun onCheckoutClick() {
         // TODO: handle results
-        checkoutVm.createCheckout(productsInCart).subscribe()
+        checkoutVm.createCheckout(productsInCart)
+                .subscribe({ Timber.v("Checkout: $it") },
+                           { Timber.e(it, "Failed to create checkout") })
+    }
+    @OnClick(R.id.btn_clear_cart)
+    internal fun onClearCartClick() {
+        adapter.clear()
+        productsInCart.clear()
+        cartVm.clearCart()
     }
 
     companion object {
@@ -42,7 +51,7 @@ class CartFragment : BaseFragment() {
     private lateinit var adapter: ProductsInCartAdapter
 
     // TODO: move to coordinator?
-    private lateinit var productsInCart: Collection<Product>
+    private lateinit var productsInCart: MutableCollection<Product>
 
     /* Lifecycle */
     // --------------------------------------------------------------------------------------------
@@ -70,8 +79,8 @@ class CartFragment : BaseFragment() {
                 .doOnSubscribe { showLoading(true) }
                 .doFinally { showLoading(false) }
                 .subscribe {
-                    productsInCart = it
-                    adapter.items = it
+                    productsInCart = it.toMutableList()
+                    adapter.items = it.toMutableList()
                     totalPrice.text = if (it.isEmpty()) "0"
                                       else String.format("%s", it.map { it.price }
                                                     .reduce { sum, item -> sum + item })

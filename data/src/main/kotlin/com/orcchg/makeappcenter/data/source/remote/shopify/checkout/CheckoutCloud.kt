@@ -16,7 +16,7 @@ class CheckoutCloud @Inject constructor(private val shopifyClient: GraphClient) 
     fun checkout(products: Collection<Product>): Flowable<Checkout> {
         // TODO: specify quantity
         val input = Storefront.CheckoutCreateInput()
-                .setLineItems(products.map { Storefront.CheckoutLineItemInput(1, ID(it.id)) })
+                .setLineItems(products.map { Storefront.CheckoutLineItemInput(1, ID(it.variantId)) })
 
         val query = Storefront.mutation {
             it.checkoutCreate(input, {
@@ -32,14 +32,6 @@ class CheckoutCloud @Inject constructor(private val shopifyClient: GraphClient) 
         return Flowable.create<Checkout>({ emitter ->
             shopifyClient.mutateGraph(query).enqueue(object : GraphCall.Callback<Storefront.Mutation> {
                 override fun onResponse(response: GraphResponse<Storefront.Mutation>) {
-                    /**
-                     * if (!response.data().getCheckoutCreate().getUserErrors().isEmpty()) {
-                    // handle user friendly errors
-                    } else {
-                    String checkoutId = response.data().getCheckoutCreate().getCheckout().getId().toString();
-                    String checkoutWebUrl = response.data().getCheckoutCreate().getCheckout().getWebUrl();
-                    }
-                     */
                     val data = response.data()
                     if (data != null) {
                         val errors = data.checkoutCreate.userErrors

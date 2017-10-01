@@ -7,5 +7,7 @@ class CartViewModel(private val repository: CartRepository) : ViewModel() {
 
     fun cartSize() = repository.cartSize()
 
+    fun clearCart() = repository.clearCart()
+
     fun productsInCart() = repository.productsInCart()
 }
