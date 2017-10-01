@@ -36,7 +36,8 @@ class CartFragment : BaseFragment() {
     internal fun onClearCartClick() {
         adapter.clear()
         productsInCart.clear()
-        cartVm.clearCart()
+        cartVm.clearCart().subscribe()
+        totalPrice.text = "0"
     }
 
     companion object {
